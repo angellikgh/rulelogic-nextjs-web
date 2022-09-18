@@ -1,0 +1,186 @@
+syntax = "proto3";
+package io.rulelogic.api;
+import "common/common.proto";
+// import "google/api/annotations.proto";
+
+enum PartyType {
+  PERSON = 0;
+  ORGANISATION = 1;
+}
+
+// This shows the results of authentication
+enum LoginStatus {
+  SUCCESS = 0;
+  FAIL = 1;
+  ACCOUNT_DISABLED = 3;
+}
+
+// this shows issues with login request, such as missing login, passowrd, or 
+enum LoginRequestStatus {
+  CREDINTIALS_FULLY_SUPPLIED= 0;  //  the username+password or hash_credintials suppliedcredintials supplied
+  CREDINTIALS_LOGIN_MISSING = 1;  // Login not provided
+  CREDINTIALS_PASSWORD_MISSING = 2;
+  CREDENTIALS_STATUS_UNKNOWN = 3;
+}
+
+
+
+message Party {
+  string partyPk = 1; 
+  string code = 2;
+  string title = 3;
+  string firstName = 4;
+  string lastName = 5;
+  string nickname = 6;
+  string company = 7;
+  string login = 8;
+  string password = 9;
+  string recordPk = 10;
+  string email = 11;
+  string mobile = 12;
+  PartyType recordType = 13;
+  string recordStatus = 14;
+  VisibilityType visibility = 15;
+  Omd omd = 16;
+  bool isSuperUser = 17;
+  bool  isRecordOwner = 20;
+}
+
+
+
+service PartyService {
+
+  rpc getSingleRecord(PartySearchRequest) returns (PartySearchResponse) ;
+  rpc getSingleRecordByKey(PartySearchByKeyRequest) returns (PartySearchByKeyResponse);
+  rpc listRecords(CommonSearchListRequest) returns ( PartyListResponse);
+  rpc updateRecord(PartyDmlUpdateRequest) returns (PartyDmlUpdateResponse);
+  rpc deleteRecord(PartyDmlDeleteRequest) returns (PartyDmlDeleteResponse) ;
+  rpc createRecord(PartyDmlCreateRequest) returns (PartyDmlCreateResponse) ;
+  rpc authenticateUser(AuthenticateRequest) returns (AuthenticateResponse) ; 
+
+  rpc listEventOwnersAndSubscribers (EventSubscriberListRequest)    returns (PartyListResponse) ;
+}
+
+
+
+
+message AuthenticateRequest {
+  string login = 1;
+  string password = 2;
+  string hashedCredentials = 3;
+  LoginRequestStatus loginRequestStatus = 4;
+}
+
+message AuthenticateResponse {
+  string loginToken = 1;
+  Party party = 2;
+  LoginStatus loginStatus = 3;   // 
+  string lastLoginDate = 4;
+  string loginStatusMessage = 5; 
+  string hashedCredentials = 6;
+  bool userAuthenticated = 7; 
+  bool isSuperUser = 8;
+}
+
+message PartySearchRequest {
+  int32 id = 1;
+  int32 pageNumber = 2;
+  int32 recordPerPage = 3;
+  string login = 10;
+  string password = 11;
+}
+
+message PartySearchByKeyRequest {
+  string id = 1;
+}
+
+message PartySearchByKeyResponse {
+  Party party = 1;
+  bool recordFound = 2;
+}
+
+message EventSubscriberListRequest {
+
+  int32 skip = 1;  // Skip number of records - default is 0
+  int32 limit = 2;  // number of records to return - default is 10
+  AuthDetail  authDetail = 3;
+  string eventRecordPk = 4; 
+  
+  
+}
+
+
+message PartySearchResponse {
+  int32 pageNumber = 1;
+  int32 recordPerPage = 2;
+  Party party = 3;
+
+}
+
+
+
+
+
+message PartyListResponse {
+  int32 skip = 1;
+  int32 limit = 2;
+  repeated Party parties = 3;
+  ResponseStatus responseStatus = 4;
+}
+
+
+message PartySearchListRequest {
+  int32 skip = 1;  // Skip number of records - default is 0
+  int32 limit = 2;  // number of records to return - default is 10
+  SearchScope searchScope = 3;  // scope of data owned, vs all 
+  string login = 10;
+  string token = 11;
+  string partyPk = 12;
+}
+
+
+
+message PartyDmlResponse {
+  string responseCode = 1;  // system wide dml
+  string responseText = 2;
+  bool status = 3;
+  Party party = 4;
+}
+
+// Create
+message PartyDmlCreateResponse {
+  string responseCode = 1;  // system wide dml
+  string responseText = 2;
+  bool status = 3;
+  Party party = 4;
+}
+
+message PartyDmlCreateRequest {
+  Party party = 1; 
+  string requestMessage  = 2;
+}
+
+// Update
+message PartyDmlUpdateResponse {
+  string responseCode = 1;  // system wide dml
+  string responseText = 2;
+  bool status = 3;
+  Party party = 4;
+}
+
+message PartyDmlUpdateRequest {
+  Party party = 1; 
+}
+
+// Delete
+message PartyDmlDeleteResponse {
+  string responseCode = 1;  // system wide dml
+  string responseText = 2;
+  bool status = 3;
+}
+
+message PartyDmlDeleteRequest {
+  Party party = 1; 
+}
+
+

@@ -1,0 +1,252 @@
+syntax = "proto3";
+
+package io.rulelogic.api;
+
+
+
+message Omd {
+  string  createTimestamp = 1;
+  string updateTimestamp = 2;
+  string effectiveFromTimestamp = 3;
+  string effectiveToTimestamp = 4;
+  string tags = 5;
+  int32  version = 6;
+
+}
+
+
+
+message AuthDetail { 
+  string login = 1; 
+  string token = 2; 
+  string partyPk = 3;
+
+}
+
+enum crudType {
+  CREATE = 0;
+  READ = 1;
+  UPDATE = 2;
+  DELETE = 3;
+
+}
+
+
+enum VisibilityType {
+  Private = 0;
+  Public = 1;
+}
+
+enum AuthenticationStatus {
+  Successful = 0;
+  Failed = 1;
+}
+
+enum SearchScope {
+  ALL = 0;
+  OWNER_OF = 1;
+  SUBSCRIBER_OF = 2;
+  FOLLOWER_OF = 3;
+  TRIGGERS = 4;
+  TRIGGERED_BY = 5;
+}
+
+// enum AssociationType {
+//   OWNER_OF_ASSOCIATION = 0;
+//   SUBSCRIBER_OF_ASSOCIATION = 1;
+//   FOLLOWER_OF_ASSOCIATION = 2;
+//   TRIGGERS_ASSOCIATION = 3;
+//   TRIGGERED_BY_ASSOCIATION = 4;
+//   SHADOWS_ASSOCIATION = 5;
+// }
+
+enum PartyAssociationType {  // Association of Party to Entity
+  OWNER_OF_ASSOCIATION = 0;
+  SUBSCRIBER_OF_ASSOCIATION = 1;
+  FOLLOWER_OF_ASSOCIATION = 2;
+  FAVOURITE_ASSOCIATION = 3;
+}
+
+enum EntityAssociationType {  // Associaton of Entity to Entity
+  TRIGGERS_ASSOCIATION = 0;
+  TRIGGERED_BY_ASSOCIATION = 1;
+  SHADOWS_ASSOCIATION = 2;
+}
+
+enum AssociationMode {
+  LINK = 0;
+  UNLINK = 1;
+}
+
+
+enum MessageTrigger {
+  RuleConditionTrue = 0;
+  RuleConditionFalse = 1;
+  TurnedOnManually = 2;
+  TurnedOffManually = 3;
+  ConditionMet = 4;
+}
+
+enum MessageProgressStatus {
+  Requested = 0;
+  Done = 1;
+}
+
+enum MessageTopic {
+  EventTopic = 0;
+  RuleTopic = 1;
+  ActionTopic = 2;
+  EmailTopic = 3;
+  SmsTopic = 4;
+  VoiceTopic = 5;
+
+}
+
+enum EntityName {
+  EventEntity = 0;
+  RuleEntity = 1;
+  ActionEntity = 2;
+  PartyEntity = 3;
+  PayloadEntity = 4;
+  LocationEntity = 5;
+  WeatherEntity = 6;
+  AnalyticEntity = 7; 
+}
+
+enum actionTypeEnum {
+  // 
+   EmailAction = 0;
+   SmsAction = 1;
+   VoiceAction  = 2;
+   ApiAction = 3;
+   TweetAction = 4;
+   PingAction = 5;
+   CallbackAction = 6;
+   NotificationAction = 7;
+   
+ }
+
+
+message ResponseStatus {
+  AuthenticationStatus authenticationStatus = 1;  
+  string responseText = 2;
+  bool status = 3;
+  }
+
+
+///
+/// Common Request
+/// ===================
+/// this section has commont request which is generic to apply to any table
+/// if the common request is not useful, then specific one will be created in
+/// the table proto file
+///
+message CommonRateRequest {
+  string id = 1;  // RecordPk
+  int32 rating = 2; // 1 to 5  
+  AuthDetail authDetail = 10;
+
+}
+
+// message CommonFavouriteRequest {
+//   string id = 1;  // RecordPk
+//   bool enable = 2; // true, meaning enable, or false meaning unfavourite
+//   AuthDetail authDetail = 10;
+// }
+
+// message CommonSubscribeRequest {
+//   string id = 1;  // RecordPk
+//   bool enable = 2; // true, meaning subscribe, or false meaning unsubscribe
+//   AuthDetail authDetail = 10; //
+// }
+
+message CommonPartyAssociateRequest {
+  string id = 1;  // RecordPk of entity ( e.g. Event, Rule, etc) to Associate ( SUBSCRIBE, Follow, etc.)
+  PartyAssociationType partyAssociationType = 2; // Subscribe, Follow, etc.
+  AssociationMode associationMode = 3; // Link or Unlink
+  AuthDetail authDetail = 10; //
+}
+
+message CommonEntityAssociateRequest {
+  EntityName fromEntity = 1;
+  string fromEntityRecordPk = 2;
+  EntityName toEntity = 3;
+  string toEntityRecordPk = 4;
+  EntityAssociationType associationType = 5; // Shadow, Trigger
+  AssociationMode associationMode = 6; // Link or Unlink
+  AuthDetail authDetail = 10; //
+}
+
+
+message CommonStatusChangeRequest {
+  string id = 1;  // RecordPk of the entity to subscribe to - e.g. event, rule, action
+  bool status = 2; // true, meaning turn on, or false meaning turn off
+  AuthDetail authDetail = 10;  // the auth details of a person wanting to subsccribe to the entiry 
+}
+
+
+message CommonSearchRequest {
+  string id = 1;
+  AuthDetail authDetail = 10;
+}
+
+message CommonSearchListRequest {
+
+  int32 skip = 1;  // Skip number of records - default is 0
+  int32 limit = 2;  // number of records to return - default is 10
+  SearchScope searchScope = 3;  // scope of data owned, vs all 
+  string filter = 4; 
+  AuthDetail authDetail = 10;
+  
+}
+
+
+message CommonDeleteRequest {
+  string id = 1; // RecordPk
+  AuthDetail authDetail = 10;
+}
+
+
+message CommonDuplicateRequest {
+  string id = 1; // RecordPk
+  AuthDetail authDetail = 10;  // the auth details of the party which will own the record
+}
+
+
+
+/// Pagination metadata for UI usage
+message PaginationInfo {
+
+  int32 skip = 1;  // Skip number of records - default is 0
+  int32 limit = 2;  // number of records to return - default is 10
+  int32 totalRecords = 3;
+  int32 currentPage = 4;
+  int32 nextPage = 5;
+  int32 prevPage = 6;
+
+}
+
+
+/// Helper data to minimise io for each record
+message RecordMetadata {
+
+  string recordPk = 1;
+  bool recordColorIndex = 2;
+  string titleColor = 3;
+  string titleFirstLetter = 4;
+
+  bool isRecordOwner = 10;  // 
+  bool isFavouritedBy = 11;
+  bool isSubscribedBy = 12;
+  bool isPublic = 13;
+
+  int32 favouriteCount = 20;
+  int32 favouritedCount = 21;
+  int32 subscribedCount = 22;
+  int32 shadowedByEventCount = 23;
+  int32 ratedByUsercount  = 24;
+
+  string publisherPartyPk = 30;
+  string publishedBy = 31;
+  
+}
