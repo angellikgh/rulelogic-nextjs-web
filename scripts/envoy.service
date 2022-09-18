@@ -1,0 +1,18 @@
+[Unit]
+Description=Envoy service
+Documentation=https://www.envoyproxy.io/
+
+[Service]
+Type=simple
+User=root
+Group=root
+TimeoutStartSec=0
+Restart=on-failure
+RestartSec=30s
+#ExecStartPre=
+ExecStart=/bin/bash /home/ubuntu/run_envoy.sh
+SyslogIdentifier=EnvoyProxyManager
+#ExecStop=
+
+[Install]
+WantedBy=multi-user.target

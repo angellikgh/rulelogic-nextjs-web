@@ -1,0 +1,2 @@
+  dart pub get
+  ./scripts/do_gen.sh

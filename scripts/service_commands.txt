@@ -1,0 +1,20 @@
+  370  ll /etc/systemd/system
+  371  ll /etc/systemd/system/*.service
+  372  ll /etc/systemd/system/web.service
+  373  ll web.service
+  374  cp web.service  /etc/systemd/system
+  375  sudo cp web.service  /etc/systemd/system
+  378  sudo systemctl start web.service
+  379  sudo systemctl status web.service
+  382  /bin/bash /home/ubuntu/run_web.sh
+  383  ./home/ubuntu/run_web.sh
+  398  more web.service
+  399  more run_web.sh
+  404  npm run start
+  405  npm install
+  406  npm run start
+  407  ps -ef|grep npm
+  409  sudo systemctl stop web.service
+  410  sudo systemctl start web.service
+  411  sudo systemctl status web.service
+sudo cp envoy.service /lib/systemd/system

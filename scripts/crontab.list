@@ -1,0 +1,12 @@
+HOME=/home/ubuntu/rulelogic_api
+LOG=/home/ubuntu/rulelogic_api/log
+BASH_ENV=/home/ubuntu/.baschrc
+*/5 * * * *  cd $HOME;           $HOME/scripts/run_main.sh          >>$LOG/run_main.log          2>> $LOG/run_main.err
+*/1 * * * *  cd $HOME; sleep 30; $HOME/scripts/run_event.sh         >>$LOG/run_event.log         2>> $LOG/run_event.err
+*/1 * * * *  cd $HOME;           $HOME/scripts/run_rule.sh          >>$LOG/run_rule.log          2>> $LOG/run_rule.err
+*/1 * * * *  cd $HOME; sleep 45; $HOME/scripts/run_action.sh        >>$LOG/run_action.log        2>> $LOG/run_action.err
+* * * * *    cd $HOME;           $HOME/scripts/run_rule_temporal.sh >>$LOG/run_rule_temporal.log 2>> $LOG/run_rule_temporal.err
+*/1 * * * *  cd $HOME;           $HOME/scripts/run_rule_weather.sh  >>$LOG/run_rule_weather.log  2>> $LOG/run_rule_weather.err
+*/1 * * * *  cd $HOME; sleep 15; $HOME/scripts/run_email.sh         >>$LOG/run_email.log         2>> $LOG/run_email.err
+*/1 * * * *  cd $HOME; sleep 15; $HOME/scripts/run_sms.sh           >>$LOG/run_sms.log           2>> $LOG/run_sms.err
+*/1 * * * *  cd $HOME; sleep 15; $BASH_ENV=$HOME/scripts/.cron_env HOME/scripts/run_analytics.sh     >>$LOG/run_analytics.log     2>> $LOG/run_analytics.err

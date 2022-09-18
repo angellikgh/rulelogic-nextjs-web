@@ -1,0 +1,5 @@
+#!/bin/bash
+
+export DB_PASSWORD=VerySecurePassword$$
+export OPS_PASSWORD=thisIsCriticalDontShowIt
+export OPS_LOGIN=opsRuleLogic
