@@ -25,6 +25,7 @@ const Root = styled(Box)(({ theme, ...props }) => ({
   }[props.color],
 }));
 
+// eslint-disable-next-line react/display-name
 const FuseSvgIcon = forwardRef((props, ref) => {
   if (!props.children.includes(':')) {
     return <Icon ref={ref} {...props} />;

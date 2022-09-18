@@ -1,6 +1,7 @@
 import FuseDialog from '@fuse/core/FuseDialog';
 import { styled } from '@mui/material/styles';
 import FuseSuspense from '@fuse/core/FuseSuspense';
+import FuseMessage from '@fuse/core/FuseMessage';
 import AppContext from 'app/AppContext';
 import { memo, useContext } from 'react';
 import { useSelector } from 'react-redux';
@@ -77,6 +78,7 @@ function Layout1(props) {
       </div>
 
       {config.rightSidePanel.display && <RightSideLayout1 />}
+      <FuseMessage />
     </Root>
   );
 }

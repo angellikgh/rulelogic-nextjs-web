@@ -81,13 +81,13 @@ function SignUpPage() {
       <Paper className="h-full sm:h-auto md:flex md:items-center md:justify-end w-full sm:w-auto md:h-full md:w-1/2 py-8 px-16 sm:p-48 md:p-64 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none ltr:border-r-1 rtl:border-l-1">
         <div className="w-full max-w-320 sm:w-320 mx-auto sm:mx-0">
           <Image
-            width={48}
-            height={48}
-            src="/assets/images/logo/logo.svg"
+            width={128}
+            height={128}
+            src="/assets/images/logo/fulllogo_transparent_nobuffer.png"
             alt="logo"
           />
 
-          <Typography className="mt-32 text-4xl font-extrabold tracking-tight leading-tight">
+          <Typography className="mt-16 text-4xl font-extrabold tracking-tight leading-tight">
             Sign up
           </Typography>
           <div className="flex items-baseline mt-2 font-medium">

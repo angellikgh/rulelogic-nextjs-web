@@ -5,6 +5,7 @@ import { createWrapper } from 'next-redux-wrapper';
 import { Provider, useStore, useSelector } from 'react-redux';
 import rtlPlugin from 'stylis-plugin-rtl';
 import { SnackbarProvider } from 'notistack';
+import { StyledEngineProvider } from '@mui/material/styles';
 
 import FuseLayout from '@fuse/core/FuseLayout';
 import FuseTheme from '@fuse/core/FuseTheme';
@@ -34,6 +35,7 @@ let emotionCacheOptions = {
     key: 'muiltr',
     stylisPlugins: [],
     prepend: true,
+    speedy: false,
     // insertionPoint: document.getElementById('emotion-insertion-point'),
   },
 };
@@ -72,7 +74,9 @@ function MyApp({ Component, pageProps }: AppProps) {
                     }}
                   >
                     <FuseLayout layouts={themeLayouts}>
-                      {typeof window === 'undefined' ? null : <Component {...pageProps} />}
+                      <StyledEngineProvider injectFirst>
+                        {typeof window === 'undefined' ? null : <Component {...pageProps} />}
+                      </StyledEngineProvider>
                     </FuseLayout>
                   </SnackbarProvider>
                 </FuseAuthorization>

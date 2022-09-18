@@ -66,9 +66,10 @@ function FuseMessage(props) {
         className="FuseMessage-content"
         message={
           <div className="flex items-center">
-            {variantIcon[options.variant] && (
+            {/* TODO: Replace Icon */}
+            {/* {variantIcon[options.variant] && (
               <FuseSvgIcon color="inherit">{variantIcon[options.variant]}</FuseSvgIcon>
-            )}
+            )} */}
             <Typography className="mx-8">{options.message}</Typography>
           </div>
         }

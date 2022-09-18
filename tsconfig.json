@@ -5,6 +5,8 @@
       "components/*": ["./src/components/*"],
       "@fuse/*": ["./src/@fuse/*"],
       "app/*": ["./src/app/*"],
+      "services/*": ["./src/services/*"],
+      "utils/*": ["./src/utils/*"],
     },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],

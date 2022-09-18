@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import FuseSplashScreen from '@fuse/core/FuseSplashScreen';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import { logoutUser, setUser } from 'app/store/userSlice';
-import jwtService from './services/jwtService';
+import AuthService from 'services/auth';
 
 const AuthContext = React.createContext();
 
@@ -14,14 +14,13 @@ function AuthProvider({ children }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    jwtService.on('onAutoLogin', () => {
+    AuthService.on('onAutoLogin', () => {
       dispatch(showMessage({ message: 'Signing in with JWT' }));
 
       /**
        * Sign in and retrieve user data with stored token
        */
-      jwtService
-        .signInWithToken()
+      AuthService.signInWithToken()
         .then((user) => {
           success(user, 'Signed in with JWT');
         })
@@ -30,37 +29,38 @@ function AuthProvider({ children }) {
         });
     });
 
-    jwtService.on('onLogin', (user) => {
+    AuthService.on('onLogin', (user) => {
       success(user, 'Signed in');
     });
 
-    jwtService.on('onLogout', () => {
+    AuthService.on('onLogout', () => {
       pass('Signed out');
 
       dispatch(logoutUser());
     });
 
-    jwtService.on('onAutoLogout', (message) => {
+    AuthService.on('onAutoLogout', (message) => {
       pass(message);
 
       dispatch(logoutUser());
     });
 
-    jwtService.on('onNoAccessToken', () => {
+    AuthService.on('onNoAccessToken', () => {
       pass();
     });
 
-    jwtService.init();
+    AuthService.on('onFailed', (message) => {
+      error(message);
+    });
+
+    AuthService.init();
 
     function success(user, message) {
       if (message) {
-        dispatch(showMessage({ message }));
+        dispatch(showMessage({ message, variant: 'success' }));
       }
 
-      Promise.all([
-        dispatch(setUser(user)),
-        // You can receive data in here before app initialization
-      ]).then((values) => {
+      Promise.all([dispatch(setUser(user))]).then((values) => {
         setWaitAuthCheck(false);
         setIsAuthenticated(true);
       });
@@ -73,6 +73,12 @@ function AuthProvider({ children }) {
 
       setWaitAuthCheck(false);
       setIsAuthenticated(false);
+    }
+
+    function error(message) {
+      if (message) {
+        dispatch(showMessage({ message, variant: 'error' }));
+      }
     }
   }, [dispatch]);
 

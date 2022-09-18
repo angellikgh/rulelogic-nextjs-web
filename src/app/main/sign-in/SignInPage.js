@@ -1,12 +1,14 @@
 /* eslint-disable react/no-unescaped-entities */
 import Image from 'next/image';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup.js';
 import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
+
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -16,9 +18,10 @@ import AvatarGroup from '@mui/material/AvatarGroup';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
+import LoginIcon from '@mui/icons-material/Login';
 
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
-import jwtService from '../../auth/services/jwtService';
+import AuthService from 'services/auth';
 
 /**
  * Form Validation Schema
@@ -41,6 +44,7 @@ const defaultValues = {
 };
 
 function SignInPage() {
+  const [loading, setLoading] = useState(false);
   const { control, formState, handleSubmit, setError, setValue } = useForm({
     mode: 'onChange',
     defaultValues,
@@ -58,19 +62,12 @@ function SignInPage() {
   }, [setValue]);
 
   function onSubmit({ email, password }) {
-    jwtService
-      .signInWithEmailAndPassword(email, password)
-      .then((user) => {
-        // No need to do anything, user data will be set at app/auth/AuthContext
+    setLoading(true);
+    AuthService.signInWithEmailAndPassword(email, password)
+      .then((res) => {
+        setLoading(false);
       })
-      .catch((_errors) => {
-        _errors.forEach((error) => {
-          setError(error.type, {
-            type: 'manual',
-            message: error.message,
-          });
-        });
-      });
+      .catch(() => setLoading(false));
   }
 
   return (
@@ -78,13 +75,13 @@ function SignInPage() {
       <Paper className="h-full sm:h-auto md:flex md:items-center md:justify-end w-full sm:w-auto md:h-full md:w-1/2 py-8 px-16 sm:p-48 md:p-64 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none ltr:border-r-1 rtl:border-l-1">
         <div className="w-full max-w-320 sm:w-320 mx-auto sm:mx-0">
           <Image
-            width={48}
-            height={48}
-            src="/assets/images/logo/logo.svg"
+            width={128}
+            height={128}
+            src="/assets/images/logo/fulllogo_transparent_nobuffer.png"
             alt="logo"
           />
 
-          <Typography className="mt-32 text-4xl font-extrabold tracking-tight leading-tight">
+          <Typography className="mt-16 text-4xl font-extrabold tracking-tight leading-tight">
             Sign in
           </Typography>
           <div className="flex items-baseline mt-2 font-medium">
@@ -159,17 +156,20 @@ function SignInPage() {
               </Link>
             </div>
 
-            <Button
-              variant="contained"
+            <LoadingButton
+              type="submit"
               color="secondary"
-              className=" w-full mt-16"
+              variant="contained"
+              className="w-full mt-16"
               aria-label="Sign in"
               disabled={_.isEmpty(dirtyFields) || !isValid}
-              type="submit"
               size="large"
+              loading={loading}
+              loadingPosition="end"
+              endIcon={<LoginIcon />}
             >
               Sign in
-            </Button>
+            </LoadingButton>
 
             <div className="flex items-center mt-32">
               <div className="flex-auto mt-px border-t" />
