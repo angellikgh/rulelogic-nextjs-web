@@ -1,7 +1,7 @@
 import FusePageCarded from '@fuse/core/FusePageCarded';
 import withReducer from 'app/store/withReducer';
 import useThemeMediaQuery from '@fuse/hooks/useThemeMediaQuery';
-import reducer from 'app/store';
+import reducer from '../store';
 import RulesHeader from './RulesHeader';
 import RulesTable from './RulesTable';
 
@@ -17,4 +17,4 @@ function RuleList() {
   );
 }
 
-export default withReducer('rules', reducer)(RuleList);
+export default withReducer('rule', reducer)(RuleList);

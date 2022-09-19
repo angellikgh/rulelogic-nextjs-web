@@ -2,7 +2,7 @@ import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 
 // const RuleList = lazy(() => import('./RuleList'));
-const RuleType = lazy(() => import('./RuleType'));
+const RuleType = lazy(() => import('./rule-type'));
 const RuleEdit = lazy(() => import('./RuleEdit'));
 
 const RuleConfig = {
@@ -19,7 +19,7 @@ const RuleConfig = {
       element: <RuleType />,
     },
     {
-      path: 'rules/:orderId',
+      path: 'rules/edit/:ruleId',
       element: <RuleEdit />,
     },
     {

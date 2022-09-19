@@ -36,6 +36,7 @@ const RuleService = {
   async getRules({ skip, limit, keyword }) {
     const authDetail = AuthService.getAuthDetail();
 
+    console.log('fire getRules', authDetail);
     const listRuleRequest = new CommonSearchListRequest();
 
     listRuleRequest.setSkip(skip);

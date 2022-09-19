@@ -157,8 +157,8 @@ const Root = styled('div')(({ theme, ...props }) => ({
 const headerHeight = 120;
 const toolbarHeight = 64;
 
+// eslint-disable-next-line react/display-name
 const FusePageCarded = forwardRef((props, ref) => {
-  // console.info("render::FusePageCarded");
   const leftSidebarRef = useRef(null);
   const rightSidebarRef = useRef(null);
   const rootRef = useRef(null);
@@ -228,7 +228,9 @@ const FusePageCarded = forwardRef((props, ref) => {
               enable={props.scroll === 'content'}
             >
               {props.content && (
-                <div className={clsx('FusePageCarded-content')}>{props.content}</div>
+                <div className={clsx('FusePageCarded-content')}>
+                  {props.content}
+                </div>
               )}
             </FuseScrollbars>
             {props.rightSidebarContent && (

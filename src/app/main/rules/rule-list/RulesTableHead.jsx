@@ -22,7 +22,7 @@ const rows = [
     id: 'id',
     align: 'left',
     disablePadding: false,
-    label: 'ID',
+    label: '',
     sort: true,
   },
   {
@@ -41,14 +41,14 @@ const rows = [
   },
   {
     id: 'By',
-    align: 'right',
+    align: 'left',
     disablePadding: false,
     label: 'Total',
     sort: true,
   },
   {
     id: 'payment',
-    align: 'left',
+    align: 'right',
     disablePadding: false,
     label: 'Price',
     sort: true,
@@ -89,7 +89,7 @@ function OrdersTableHead(props) {
     setSelectedOrdersMenu(null);
   }
 
-  // const {onSelectAllClick, order, orderBy, numSelected, rowCount} = props;
+  // const { onSelectAllClick, order, orderBy, numSelected, rowCount } = props;
 
   return (
     <TableHead>

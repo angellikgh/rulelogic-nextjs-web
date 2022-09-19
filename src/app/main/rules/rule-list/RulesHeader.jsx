@@ -1,17 +1,16 @@
+import Router from 'next/router';
 import Input from '@mui/material/Input';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
-// import {
-//   selectOrdersSearchText,
-//   setOrdersSearchText,
-// } from '../store/ordersSlice';
+import { selectRulesSearchText, setRulesSearchText } from '../store/rulesSlice';
+import { Button } from '@mui/material';
 
-function OrdersHeader(props) {
+function RulesHeader(props) {
   const dispatch = useDispatch();
-  const searchText = ''; // useSelector(selectOrdersSearchText);
+  const searchText = useSelector(selectRulesSearchText);
 
   return (
     <div className="flex flex-col sm:flex-row flex-1 w-full space-y-8 sm:space-y-0 items-center justify-between py-32 px-24 md:px-32">
@@ -43,12 +42,27 @@ function OrdersHeader(props) {
             inputProps={{
               'aria-label': 'Search Orders',
             }}
-            // onChange={(ev) => dispatch(setOrdersSearchText(ev))}
+            onChange={(ev) => dispatch(setRulesSearchText(ev))}
           />
         </Paper>
+
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0, transition: { delay: 0.2 } }}
+        >
+          <Button
+            className=""
+            variant="contained"
+            color="secondary"
+            startIcon={<FuseSvgIcon>heroicons-outline:plus</FuseSvgIcon>}
+            onClick={() => Router.push(`/rules/types`)}
+          >
+            Add
+          </Button>
+        </motion.div>
       </div>
     </div>
   );
 }
 
-export default OrdersHeader;
+export default RulesHeader;

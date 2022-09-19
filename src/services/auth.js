@@ -1,6 +1,4 @@
 import FuseUtils from '@fuse/utils/FuseUtils';
-import jwtDecode from 'jwt-decode';
-import { validateEmail } from 'utils/Utils';
 import { promiseClient } from 'utils/api';
 import {
   Party,
@@ -8,15 +6,6 @@ import {
   AuthenticateRequest,
 } from 'utils/party_pb';
 import { AuthDetail } from 'utils/rule_pb';
-
-const AuthConfig = {
-  signIn: 'api/auth/sign-in',
-  signUp: 'api/auth/sign-up',
-  accessToken: 'api/auth/access-token',
-  updateUser: 'api/auth/user/update',
-};
-
-/* eslint-disable camelcase */
 
 class AuthService extends FuseUtils.EventEmitter {
   init() {
@@ -167,6 +156,19 @@ class AuthService extends FuseUtils.EventEmitter {
 
     return JSON.parse(me);
   };
+
+  getAuthDetail() {
+    const me = this.getUserInfo();
+    const token = this.getAccessToken();
+
+    if (!me) return;
+
+    const authDetail = new AuthDetail();
+    authDetail.setLogin(me.login);
+    authDetail.setPartypk(me.recordpk);
+    authDetail.setToken(token);
+    return authDetail;
+  }
 }
 
 const instance = new AuthService();
