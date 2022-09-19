@@ -13,6 +13,12 @@
 
 ## Development
 
+Install the node modules.
+
+```bash
+npm install -f
+```
+
 First, run the development server:
 
 ```bash
