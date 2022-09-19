@@ -7,8 +7,8 @@ function FuseSplashScreen() {
     <div id="fuse-splash-screen">
       <div className="logo">
         <Image
-          width="128"
-          height="128"
+          width="180"
+          height="180"
           src="/assets/images/logo/logo.svg"
           alt="Rule Logic"
         />
