@@ -6,6 +6,7 @@ import userInterfaceConfigs from '../main/user-interface/UserInterfaceConfigs';
 import SignInConfig from '../main/sign-in/SignInConfig';
 import SignUpConfig from '../main/sign-up/SignUpConfig';
 import SignOutConfig from '../main/sign-out/SignOutConfig';
+import RuleConfig from '../main/rules/RuleConfig';
 import dashboardsConfigs from '../main/dashboards/dashboardsConfigs';
 import appsConfigs from '../main/apps/appsConfigs';
 import pagesConfigs from '../main/pages/pagesConfigs';
@@ -20,6 +21,7 @@ const routeConfigs = [
   SignOutConfig,
   SignInConfig,
   SignUpConfig,
+  RuleConfig,
 ];
 
 const routes = [
