@@ -1,6 +1,5 @@
 import '../styles/globals.css';
 
-import { SessionProvider } from 'next-auth/react';
 import { Provider, useStore, useSelector } from 'react-redux';
 import rtlPlugin from 'stylis-plugin-rtl';
 import { SnackbarProvider } from 'notistack';
@@ -45,50 +44,47 @@ const MyApp = ({ Component, pageProps }) => {
   const user = useSelector(selectUser);
   const langDirection = useSelector(selectCurrentLanguageDirection);
   const mainTheme = useSelector(selectMainTheme);
-  const session = pageProps.session;
 
   // eslint-disable-next-line react/no-children-prop
   return (
-    <SessionProvider session={session}>
-      <AppContext.Provider
-        value={{
-          routes,
-        }}
-      >
-        <Provider store={store}>
-          <CacheProvider value={createCache(emotionCacheOptions.ltr)}>
-            <FuseTheme theme={mainTheme} direction={langDirection}>
-              <AuthProvider>
-                <BrowserRouter>
-                  <FuseAuthorization
-                    user={user}
-                    loginRedirectUrl={settingsConfig.loginRedirectUrl}
+    <AppContext.Provider
+      value={{
+        routes,
+      }}
+    >
+      <Provider store={store}>
+        <CacheProvider value={createCache(emotionCacheOptions.ltr)}>
+          <FuseTheme theme={mainTheme} direction={langDirection}>
+            <AuthProvider>
+              <BrowserRouter>
+                <FuseAuthorization
+                  user={user}
+                  loginRedirectUrl={settingsConfig.loginRedirectUrl}
+                >
+                  <SnackbarProvider
+                    maxSnack={5}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'right',
+                    }}
+                    classes={{
+                      containerRoot:
+                        'bottom-0 right-0 mb-52 md:mb-68 mr-8 lg:mr-80 z-99',
+                    }}
                   >
-                    <SnackbarProvider
-                      maxSnack={5}
-                      anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'right',
-                      }}
-                      classes={{
-                        containerRoot:
-                          'bottom-0 right-0 mb-52 md:mb-68 mr-8 lg:mr-80 z-99',
-                      }}
-                    >
-                      <StyledEngineProvider injectFirst>
-                        <FuseLayout layouts={themeLayouts}>
-                          {typeof window === 'undefined' ? <FuseSplashScreen /> : <Component {...pageProps} />}
-                        </FuseLayout>
-                      </StyledEngineProvider>
-                    </SnackbarProvider>
-                  </FuseAuthorization>
-                </BrowserRouter>
-              </AuthProvider>
-            </FuseTheme>
-          </CacheProvider>
-        </Provider>
-      </AppContext.Provider>
-    </SessionProvider>
+                    <StyledEngineProvider injectFirst>
+                      <FuseLayout layouts={themeLayouts}>
+                        {typeof window === 'undefined' ? <FuseSplashScreen /> : <Component {...pageProps} />}
+                      </FuseLayout>
+                    </StyledEngineProvider>
+                  </SnackbarProvider>
+                </FuseAuthorization>
+              </BrowserRouter>
+            </AuthProvider>
+          </FuseTheme>
+        </CacheProvider>
+      </Provider>
+    </AppContext.Provider>
   );
 }
 
