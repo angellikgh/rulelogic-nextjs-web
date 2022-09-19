@@ -6,8 +6,7 @@
     "dev": "next dev -p 8080",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "install": "npm install -f"
+    "lint": "next lint"
   },
   "dependencies": {
     "@emotion/cache": "^11.10.3",
