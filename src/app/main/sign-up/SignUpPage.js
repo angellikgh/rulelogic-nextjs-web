@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import Image from 'next/image';
 import Link from 'next/link';
+import Router from 'next/router';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller, useForm } from 'react-hook-form';
 import Button from '@mui/material/Button';
@@ -16,17 +17,27 @@ import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import FormHelperText from '@mui/material/FormHelperText';
-import jwtService from '../../auth/services/jwtService';
+import PhoneNumberInput from 'components/Form/PhoneNumberInput';
+import AuthService from 'services/auth';
 
 /**
  * Form Validation Schema
  */
 const schema = yup.object().shape({
-  displayName: yup.string().required('You must enter display name'),
+  companyName: yup.string('Enter your company name'),
+  lastName: yup
+    .string('Enter your last name')
+    .required('The last name is required'),
+  firstName: yup
+    .string('Enter your first name')
+    .required('The first name is required'),
   email: yup
     .string()
     .email('You must enter a valid email')
     .required('You must enter a email'),
+  phoneNumber: yup
+    .string('Enter your phone number')
+    .required('Phone number required'),
   password: yup
     .string()
     .required('Please enter your password.')
@@ -56,24 +67,26 @@ function SignUpPage() {
 
   const { isValid, dirtyFields, errors, setError } = formState;
 
-  function onSubmit({ displayName, password, email }) {
-    jwtService
-      .createUser({
-        displayName,
-        password,
-        email,
-      })
+  function onSubmit({
+    companyName,
+    password,
+    email,
+    firstName,
+    lastName,
+    phoneNumber,
+  }) {
+    AuthService.createUser({
+      companyName,
+      lastName,
+      firstName,
+      email,
+      phoneNumber,
+      password,
+    })
       .then((user) => {
-        // No need to do anything, registered user data will be set at app/auth/AuthContext
+        Router.push('/');
       })
-      .catch((_errors) => {
-        _errors.forEach((error) => {
-          setError(error.type, {
-            type: 'manual',
-            message: error.message,
-          });
-        });
-      });
+      .catch((err) => console.error(err));
   }
 
   return (
@@ -104,17 +117,55 @@ function SignUpPage() {
             onSubmit={handleSubmit(onSubmit)}
           >
             <Controller
-              name="displayName"
+              name="companyName"
               control={control}
               render={({ field }) => (
                 <TextField
                   {...field}
                   className="mb-24"
-                  label="Display name"
+                  label="Company name"
                   autoFocus
                   type="name"
-                  error={!!errors.displayName}
-                  helperText={errors?.displayName?.message}
+                  error={!!errors.companyName}
+                  helperText={errors?.companyName?.message}
+                  variant="outlined"
+                  required
+                  fullWidth
+                />
+              )}
+            />
+
+            <Controller
+              name="lastName"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  className="mb-24"
+                  label="Last Name"
+                  autoFocus
+                  type="name"
+                  error={!!errors.lastName}
+                  helperText={errors?.lastName?.message}
+                  variant="outlined"
+                  required
+                  fullWidth
+                />
+              )}
+            />
+
+            <Controller
+              name="firstName"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  className="mb-24"
+                  label="First Name"
+                  autoFocus
+                  type="name"
+                  error={!!errors.firstName}
+                  helperText={errors?.firstName?.message}
                   variant="outlined"
                   required
                   fullWidth
@@ -136,6 +187,20 @@ function SignUpPage() {
                   variant="outlined"
                   required
                   fullWidth
+                />
+              )}
+            />
+
+            <Controller
+              name="phoneNumber"
+              control={control}
+              render={({ field }) => (
+                <PhoneNumberInput
+                  {...field}
+                  className="mb-24"
+                  label="Phone Number"
+                  helperText={errors?.phoneNumber?.message}
+                  error={!!errors.password}
                 />
               )}
             />

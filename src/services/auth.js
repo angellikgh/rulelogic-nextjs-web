@@ -45,16 +45,44 @@ class AuthService extends FuseUtils.EventEmitter {
   };
 
   createUser = (data) => {
-    return new Promise((resolve, reject) => {
-      axios.post(AuthConfig.signUp, data).then((response) => {
-        if (response.data.user) {
-          this.setSession(response.data.access_token);
-          resolve(response.data.user);
-          this.emit('onLogin', response.data.user);
+    return new Promise(async (resolve, reject) => {
+      try {
+        const {
+          email,
+          firstName,
+          lastName,
+          phoneNumber,
+          password,
+          companyName,
+        } = data;
+
+        const party = new Party();
+        party.setLogin(email);
+        party.setEmail(email);
+        party.setFirstname(firstName);
+        party.setLastname(lastName);
+        party.setMobile(phoneNumber);
+        party.setPassword(password);
+        party.setCompany(companyName);
+
+        const createRequest = new PartyDmlCreateRequest();
+        createRequest.setParty(party);
+        createRequest.setRequestmessage('Creating New Intial User');
+
+        let result = await promiseClient.createRecord(createRequest);
+        result = result.toObject();
+
+        if (result.status) {
+          this.emit('onSuccess', 'Signed up Successfully');
+          resolve(result);
         } else {
-          reject(response.data.error);
+          this.emit('onFailed', result.responsetext ?? 'Failed Sign up');
+          reject(false);
         }
-      });
+      } catch (e) {
+        this.emit('onFailed', 'Failed Sign up');
+        reject(e);
+      }
     });
   };
 

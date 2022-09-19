@@ -44,6 +44,10 @@ function AuthProvider({ children }) {
       pass();
     });
 
+    AuthService.on('onSuccess', (message) => {
+      success(message);
+    });
+
     AuthService.on('onFailed', (message) => {
       error(message);
     });
