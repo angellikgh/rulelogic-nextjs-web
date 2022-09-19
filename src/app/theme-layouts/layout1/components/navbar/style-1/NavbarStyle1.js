@@ -2,7 +2,10 @@ import Hidden from '@mui/material/Hidden';
 import { styled } from '@mui/material/styles';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import { useDispatch, useSelector } from 'react-redux';
-import { navbarCloseMobile, selectFuseNavbar } from 'app/store/fuse/navbarSlice';
+import {
+  navbarCloseMobile,
+  selectFuseNavbar,
+} from 'app/store/fuse/navbarSlice';
 import { selectFuseCurrentLayoutConfig } from 'app/store/fuse/settingsSlice';
 import NavbarStyle1Content from './NavbarStyle1Content';
 

@@ -26,7 +26,7 @@ const SignUpConfig = {
   auth: authRoles.onlyGuest,
   routes: [
     {
-      path: 'sign-up',
+      path: 'account/sign-up',
       element: <SignUpPage />,
     },
   ],

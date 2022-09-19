@@ -1,7 +1,7 @@
-import type { NextPage } from 'next'
+import AnalyticsDashboardApp from 'app/main/dashboards/analytics/AnalyticsDashboardApp'
 
-const Home: NextPage = () => {
-  return <div></div>
+const Home = () => {
+  return <AnalyticsDashboardApp />;
 }
 
-export default Home
+export default Home;

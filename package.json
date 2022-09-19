@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 8080",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -37,6 +37,7 @@
     "mobile-detect": "^1.4.5",
     "moment": "^2.29.4",
     "next": "12.3.0",
+    "next-auth": "^4.10.3",
     "next-redux-wrapper": "^8.0.0",
     "next-transpile-modules": "^9.0.0",
     "notistack": "^2.0.5",

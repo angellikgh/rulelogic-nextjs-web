@@ -1,6 +1,6 @@
+import { createWrapper } from 'next-redux-wrapper';
 import { configureStore } from '@reduxjs/toolkit';
 import createReducer from './rootReducer';
-import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 
 if (process.env.NODE_ENV === 'development' && module.hot) {
   module.hot.accept('./rootReducer', () => {
@@ -41,8 +41,8 @@ export const injectReducer = (key, reducer) => {
   return store;
 };
 
-export const makeStore = () => {
-  return store;
-};
+export const makeStore = () => store;
+
+export const wrapper = createWrapper(makeStore, { debug: true });
 
 export default store;

@@ -1,11 +1,9 @@
 import FuseDialog from '@fuse/core/FuseDialog';
 import { styled } from '@mui/material/styles';
-import FuseSuspense from '@fuse/core/FuseSuspense';
 import FuseMessage from '@fuse/core/FuseMessage';
 import AppContext from 'app/AppContext';
 import { memo, useContext } from 'react';
 import { useSelector } from 'react-redux';
-import { useRoutes } from 'react-router-dom';
 import { selectFuseCurrentLayoutConfig } from 'app/store/fuse/settingsSlice';
 import FooterLayout1 from './components/FooterLayout1';
 import LeftSideLayout1 from './components/LeftSideLayout1';
@@ -34,7 +32,6 @@ const Root = styled('div')(({ theme, config }) => ({
 function Layout1(props) {
   const config = useSelector(selectFuseCurrentLayoutConfig);
   const appContext = useContext(AppContext);
-  const { routes } = appContext;
 
   return (
     <Root id="fuse-layout" config={config} className="w-full flex">
@@ -61,7 +58,6 @@ function Layout1(props) {
 
           <div className="flex flex-col flex-auto min-h-0 relative z-10">
             <FuseDialog />
-            <FuseSuspense>{useRoutes(routes)}</FuseSuspense>
             {props.children}
           </div>
 

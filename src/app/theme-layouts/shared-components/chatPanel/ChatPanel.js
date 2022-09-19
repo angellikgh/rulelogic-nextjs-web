@@ -14,8 +14,16 @@ import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import Chat from './Chat';
 import ContactList from './ContactList';
 import reducer from './store';
-import { getContacts, selectContacts, selectSelectedContactId } from './store/contactsSlice';
-import { closeChatPanel, openChatPanel, selectChatPanelState } from './store/stateSlice';
+import {
+  getContacts,
+  selectContacts,
+  selectSelectedContactId,
+} from './store/contactsSlice';
+import {
+  closeChatPanel,
+  openChatPanel,
+  selectChatPanelState,
+} from './store/stateSlice';
 import { getUserData } from './store/userSlice';
 import { getChats } from './store/chatsSlice';
 
@@ -60,7 +68,8 @@ const Root = styled('div')(({ theme, opened }) => ({
     overflow: 'hidden',
     zIndex: 1000,
     backgroundColor: theme.palette.background.paper,
-    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+    boxShadow:
+      '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
     transform: 'translate3d(0,0,0)',
     transition: theme.transitions.create(['transform'], {
       easing: theme.transitions.easing.easeInOut,
@@ -68,13 +77,19 @@ const Root = styled('div')(({ theme, opened }) => ({
     }),
 
     ...(opened && {
-      transform: theme.direction === 'rtl' ? 'translate3d(290px,0,0)' : 'translate3d(-290px,0,0)',
+      transform:
+        theme.direction === 'rtl'
+          ? 'translate3d(290px,0,0)'
+          : 'translate3d(-290px,0,0)',
     }),
 
     [theme.breakpoints.down('lg')]: {
       left: 'auto',
       position: 'fixed',
-      transform: theme.direction === 'rtl' ? 'translate3d(-360px,0,0)' : 'translate3d(360px,0,0)',
+      transform:
+        theme.direction === 'rtl'
+          ? 'translate3d(-360px,0,0)'
+          : 'translate3d(360px,0,0)',
       boxShadow: 'none',
       width: 320,
       minWidth: 320,
@@ -82,7 +97,8 @@ const Root = styled('div')(({ theme, opened }) => ({
 
       ...(opened && {
         transform: 'translate3d(0,0,0)',
-        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+        boxShadow:
+          '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
       }),
     },
   },
@@ -117,7 +133,9 @@ function ChatPanel(props) {
     },
   });
 
-  const selectedContact = contacts.find((_contact) => _contact.id === selectedContactId);
+  const selectedContact = contacts.find(
+    (_contact) => _contact.id === selectedContactId
+  );
 
   const handleDocumentKeyDown = useCallback(
     (event) => {
@@ -179,7 +197,9 @@ function ChatPanel(props) {
                   onClick={(ev) => dispatch(openChatPanel())}
                   size="large"
                 >
-                  <FuseSvgIcon size={24}>heroicons-outline:chat-alt-2</FuseSvgIcon>
+                  <FuseSvgIcon size={24}>
+                    heroicons-outline:chat-alt-2
+                  </FuseSvgIcon>
                 </IconButton>
                 {!selectedContactId && (
                   <Typography className="text-16" color="inherit">
@@ -197,7 +217,11 @@ function ChatPanel(props) {
               </div>
             )}
             <div className="flex px-4">
-              <IconButton onClick={(ev) => dispatch(closeChatPanel())} color="inherit" size="large">
+              <IconButton
+                onClick={(ev) => dispatch(closeChatPanel())}
+                color="inherit"
+                size="large"
+              >
                 <FuseSvgIcon>heroicons-outline:x</FuseSvgIcon>
               </IconButton>
             </div>
@@ -213,9 +237,6 @@ function ChatPanel(props) {
               <FuseSvgIcon size={128} color="disabled">
                 heroicons-outline:chat
               </FuseSvgIcon>
-              <Typography className="px-16 pb-24 mt-24 text-center" color="text.secondary">
-                Select a contact to start a conversation.
-              </Typography>
             </div>
           )}
         </Paper>

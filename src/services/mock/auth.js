@@ -2,7 +2,7 @@ import * as api from 'utils/api';
 import { validateEmail } from 'utils/Utils';
 
 const AuthService = {
-  _url: process.env.API_BASE_URL,
+  _url: process.env.NEXT_PUBLIC_BASE_API_URL,
 
   _validateStringField(field, value) {
     if (typeof value !== 'string' || !value.trim().length)

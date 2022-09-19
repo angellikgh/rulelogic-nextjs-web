@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import Image from 'next/image';
+import Link from 'next/link';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller, useForm } from 'react-hook-form';
 import Button from '@mui/material/Button';
@@ -8,7 +9,6 @@ import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 import _ from 'lodash';
 import AvatarGroup from '@mui/material/AvatarGroup';
@@ -92,9 +92,9 @@ function SignUpPage() {
           </Typography>
           <div className="flex items-baseline mt-2 font-medium">
             <Typography>Already have an account?</Typography>
-            <Link className="ml-4" to="/auth/login">
-              Sign in
-            </Link>
+            <span className="ml-4">
+              <Link href="/account/sign-in">Sign in</Link>
+            </span>
           </div>
 
           <form
@@ -264,13 +264,12 @@ function SignUpPage() {
 
         <div className="z-10 relative w-full max-w-2xl">
           <div className="text-7xl font-bold leading-none text-gray-100">
-            <div>Welcome to</div>
-            <div>our community</div>
+            <div>Ultra powerful</div>
+            <div>automation</div>
+            <div>at your fingertips</div>
           </div>
           <div className="mt-24 text-lg tracking-tight leading-6 text-gray-400">
-            Fuse helps developers to build organized and well coded dashboards
-            full of beautiful and rich modules. Join us and start building your
-            application today.
+            Make things happen your way, with your tools, seamlessly.
           </div>
           <div className="flex items-center mt-32">
             <AvatarGroup
@@ -280,10 +279,10 @@ function SignUpPage() {
                 },
               }}
             >
-              <Avatar src="assets/images/avatars/female-18.jpg" />
-              <Avatar src="assets/images/avatars/female-11.jpg" />
-              <Avatar src="assets/images/avatars/male-09.jpg" />
-              <Avatar src="assets/images/avatars/male-16.jpg" />
+              <Avatar src="/assets/images/avatars/female-01.jpg" />
+              <Avatar src="/assets/images/avatars/male-01.jpg" />
+              <Avatar src="/assets/images/avatars/female-03.jpg" />
+              <Avatar src="/assets/images/avatars/male-03.jpg" />
             </AvatarGroup>
 
             <div className="ml-16 font-medium tracking-tight text-gray-400">

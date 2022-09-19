@@ -5,9 +5,6 @@ import clsx from 'clsx';
 import { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { selectFooterTheme } from 'app/store/fuse/settingsSlice';
-import PurchaseButton from '../../shared-components/PurchaseButton';
-import DocumentationButton from '../../shared-components/DocumentationButton';
-import PoweredByLinks from '../../shared-components/PoweredByLinks';
 
 function FooterLayout3(props) {
   const footerTheme = useSelector(selectFooterTheme);
@@ -20,16 +17,7 @@ function FooterLayout3(props) {
         color="default"
         style={{ backgroundColor: footerTheme.palette.background.paper }}
       >
-        <Toolbar className="container min-h-48 md:min-h-64 px-8 sm:px-12 lg:px-20 py-0 flex items-center overflow-x-auto">
-          <div className="flex grow shrink-0">
-            <PurchaseButton className="mx-4" />
-            <DocumentationButton className="mx-4" />
-          </div>
-
-          <div className="flex grow shrink-0 px-12 justify-end">
-            <PoweredByLinks />
-          </div>
-        </Toolbar>
+        <Toolbar className="container min-h-48 md:min-h-64 px-8 sm:px-12 lg:px-20 py-0 flex items-center overflow-x-auto"></Toolbar>
       </AppBar>
     </ThemeProvider>
   );

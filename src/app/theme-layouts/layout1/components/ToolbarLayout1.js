@@ -5,7 +5,10 @@ import Toolbar from '@mui/material/Toolbar';
 import clsx from 'clsx';
 import { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { selectFuseCurrentLayoutConfig, selectToolbarTheme } from 'app/store/fuse/settingsSlice';
+import {
+  selectFuseCurrentLayoutConfig,
+  selectToolbarTheme,
+} from 'app/store/fuse/settingsSlice';
 import { selectFuseNavbar } from 'app/store/fuse/navbarSlice';
 import AdjustFontSize from '../../shared-components/AdjustFontSize';
 import FullScreenToggle from '../../shared-components/FullScreenToggle';
@@ -58,13 +61,13 @@ function ToolbarLayout1(props) {
               </>
             )}
 
-            <Hidden lgDown>
+            {/* <Hidden lgDown>
               <NavigationShortcuts />
-            </Hidden>
+            </Hidden> */}
           </div>
 
           <div className="flex items-center px-8 h-full overflow-x-auto">
-            <LanguageSwitcher />
+            {/* <LanguageSwitcher /> */}
 
             <AdjustFontSize />
 
@@ -76,7 +79,7 @@ function ToolbarLayout1(props) {
               <ChatPanelToggleButton />
             </Hidden>
 
-            <QuickPanelToggleButton />
+            {/* <QuickPanelToggleButton /> */}
 
             <NotificationPanelToggleButton />
 
@@ -86,7 +89,9 @@ function ToolbarLayout1(props) {
           {config.navbar.display && config.navbar.position === 'right' && (
             <>
               <Hidden lgDown>
-                {!navbar.open && <NavbarToggleButton className="w-40 h-40 p-0 mx-0" />}
+                {!navbar.open && (
+                  <NavbarToggleButton className="w-40 h-40 p-0 mx-0" />
+                )}
               </Hidden>
 
               <Hidden lgUp>

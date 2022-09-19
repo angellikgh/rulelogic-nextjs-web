@@ -8,7 +8,7 @@ const {
   RuleServicePromiseClient,
 } = require('./rule_grpc_web_pb');
 
-const _url = process.env.API_BASE_URL || 'http://0.0.0.0:8080';
+const _url = process.env.NEXT_PUBLIC_BASE_API_URL || 'http://0.0.0.0:8080';
 
 const callbackClient = new PartyServiceClient(_url);
 

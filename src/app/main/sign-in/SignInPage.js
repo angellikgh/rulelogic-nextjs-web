@@ -1,10 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
 import Image from 'next/image';
+import NextLink from 'next/link';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import _ from 'lodash';
-import { Link } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup.js';
 import Button from '@mui/material/Button';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -45,7 +45,7 @@ const defaultValues = {
 
 function SignInPage() {
   const [loading, setLoading] = useState(false);
-  const { control, formState, handleSubmit, setError, setValue } = useForm({
+  const { control, formState, handleSubmit, setValue } = useForm({
     mode: 'onChange',
     defaultValues,
     resolver: yupResolver(schema),
@@ -54,17 +54,17 @@ function SignInPage() {
   const { isValid, dirtyFields, errors } = formState;
 
   useEffect(() => {
-    setValue('email', 'admin@fusetheme.com', {
+    setValue('email', '', {
       shouldDirty: true,
       shouldValidate: true,
     });
-    setValue('password', 'admin', { shouldDirty: true, shouldValidate: true });
+    setValue('password', '', { shouldDirty: true, shouldValidate: true });
   }, [setValue]);
 
   function onSubmit({ email, password }) {
     setLoading(true);
     AuthService.signInWithEmailAndPassword(email, password)
-      .then((res) => {
+      .then(() => {
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -86,9 +86,9 @@ function SignInPage() {
           </Typography>
           <div className="flex items-baseline mt-2 font-medium">
             <Typography>Don't have an account?</Typography>
-            <Link className="ml-4" to="/sign-up">
-              Sign up
-            </Link>
+            <span className="ml-4">
+              <NextLink href="/account/sign-up">Sign up</NextLink>
+            </span>
           </div>
 
           <form
@@ -148,12 +148,12 @@ function SignInPage() {
                 )}
               />
 
-              <Link
+              {/* <NextLink
                 className="text-md font-medium"
                 to="/pages/auth/forgot-password"
               >
-                Forgot password?
-              </Link>
+                <Link>Forgot password?</Link>
+              </NextLink> */}
             </div>
 
             <LoadingButton

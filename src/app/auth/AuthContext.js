@@ -15,18 +15,11 @@ function AuthProvider({ children }) {
 
   useEffect(() => {
     AuthService.on('onAutoLogin', () => {
-      dispatch(showMessage({ message: 'Signing in with JWT' }));
+      const me = AuthService.getUserInfo();
 
-      /**
-       * Sign in and retrieve user data with stored token
-       */
-      AuthService.signInWithToken()
-        .then((user) => {
-          success(user, 'Signed in with JWT');
-        })
-        .catch((error) => {
-          pass(error.message);
-        });
+      if (me) {
+        success(me);
+      }
     });
 
     AuthService.on('onLogin', (user) => {
@@ -46,6 +39,8 @@ function AuthProvider({ children }) {
     });
 
     AuthService.on('onNoAccessToken', () => {
+      AuthService.setUserInfo(); // Remove user info session
+
       pass();
     });
 

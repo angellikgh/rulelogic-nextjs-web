@@ -1,8 +1,10 @@
+import Router from 'next/router';
 import FuseUtils from '@fuse/utils';
 import AppContext from 'src/app/AppContext';
 import { Component } from 'react';
 import { matchRoutes } from 'react-router-dom';
 import withRouter from '@fuse/core/withRouter';
+import FuseSplashScreen from '../FuseSplashScreen';
 
 let loginRedirectUrl = null;
 
@@ -34,7 +36,7 @@ class FuseAuthorization extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const { location, userRole } = props;
+    const { location, user } = props;
     const { pathname } = location;
 
     const matchedRoutes = matchRoutes(state.routes, pathname);
@@ -43,29 +45,32 @@ class FuseAuthorization extends Component {
 
     return {
       accessGranted: matched
-        ? FuseUtils.hasPermission(matched.route.auth, userRole)
+        ? FuseUtils.hasPermission(matched.route.auth, user.role)
         : true,
     };
   }
 
   redirectRoute() {
-    const { location, userRole } = this.props;
+    const { location, user } = this.props;
 
     const pathname = location.pathname;
     const redirectUrl = loginRedirectUrl || this.defaultLoginRedirectUrl;
 
-    if (!userRole || userRole.length === 0) {
-      setTimeout(() => location.push('/auth/login'), 0);
+    if (!user || !user.recordpk) {
       loginRedirectUrl = pathname;
+      Router.push('/account/sign-in');
     } else {
-      setTimeout(() => location.push(redirectUrl), 0);
       loginRedirectUrl = this.defaultLoginRedirectUrl;
+      Router.push(redirectUrl);
     }
   }
 
   render() {
-    // console.info('Fuse Authorization rendered', this.state.accessGranted);
-    return this.state.accessGranted ? <>{this.props.children}</> : null;
+    return this.state.accessGranted ? (
+      <>{this.props.children}</>
+    ) : (
+      <FuseSplashScreen />
+    );
   }
 }
 

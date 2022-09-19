@@ -1,3 +1,4 @@
+import Router from 'next/router';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -24,6 +25,12 @@ function UserMenu(props) {
     setUserMenu(null);
   };
 
+  const gotoPage = (url) => {
+    Router.push(url);
+
+    userMenuClose();
+  };
+
   return (
     <>
       <Button
@@ -33,28 +40,25 @@ function UserMenu(props) {
       >
         <div className="hidden md:flex flex-col mx-4 items-end">
           <Typography component="span" className="font-semibold flex">
-            {user.data.displayName}
+            {`${user.firstname} ${user.lastname}`}
           </Typography>
           <Typography
             className="text-11 font-medium capitalize"
             color="text.secondary"
           >
-            {user.role.toString()}
-            {(!user.role ||
-              (Array.isArray(user.role) && user.role.length === 0)) &&
-              'Guest'}
+            {user.issuperuser ? 'Admin' : 'Guest'}
           </Typography>
         </div>
 
-        {user.data.photoURL ? (
-          <Avatar
-            className="md:mx-4"
-            alt="user photo"
-            src={user.data.photoURL}
-          />
-        ) : (
-          <Avatar className="md:mx-4">{user.data.displayName[0]}</Avatar>
-        )}
+        {/* {user.photoURL ? ( */}
+        <Avatar
+          className="md:mx-4"
+          alt="user photo"
+          src="/assets/images/avatars/male-02.jpg"
+        />
+        {/* ) : ( */}
+        {/* <Avatar className="md:mx-4">{`${user.firstname} ${user.lastname}`}</Avatar> */}
+        {/* )} */}
       </Button>
 
       <Popover
@@ -73,9 +77,9 @@ function UserMenu(props) {
           paper: 'py-8',
         }}
       >
-        {!user.role || user.role.length === 0 ? (
+        {!user.recordpk || user.recordpk === 0 ? (
           <>
-            <MenuItem component={Link} to="/auth/login" role="button">
+            <MenuItem component={Link} to="/sign-in" role="button">
               <ListItemIcon className="min-w-40">
                 <FuseSvgIcon>heroicons-outline:lock-closed</FuseSvgIcon>
               </ListItemIcon>
@@ -113,10 +117,8 @@ function UserMenu(props) {
               <ListItemText primary="Inbox" />
             </MenuItem>
             <MenuItem
-              component={NavLink}
-              to="/sign-out"
               onClick={() => {
-                userMenuClose();
+                gotoPage('/account/sign-out');
               }}
             >
               <ListItemIcon className="min-w-40">

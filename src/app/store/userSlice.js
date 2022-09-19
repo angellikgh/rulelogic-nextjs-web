@@ -1,6 +1,7 @@
 /* eslint import/no-extraneous-dependencies: off */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import history from 'app/history';
+import { useRouter } from 'next/router';
 import _ from 'lodash';
 import { setInitialSettings } from 'app/store/fuse/settingsSlice';
 import { showMessage } from 'app/store/fuse/messageSlice';
@@ -54,14 +55,12 @@ export const updateUserShortcuts = createAsyncThunk(
 export const logoutUser = () => async (dispatch, getState) => {
   const { user } = getState();
 
-  if (!user.role || user.role.length === 0) {
+  if (!user.recordpk) {
     // is guest
     return null;
   }
 
-  history.push({
-    pathname: '/',
-  });
+  location.href = '/';
 
   dispatch(setInitialSettings());
 
@@ -69,7 +68,7 @@ export const logoutUser = () => async (dispatch, getState) => {
 };
 
 export const updateUserData = (user) => async (dispatch, getState) => {
-  if (!user.role || user.role.length === 0) {
+  if (!user.recordpk) {
     // is guest
     return;
   }
@@ -84,15 +83,7 @@ export const updateUserData = (user) => async (dispatch, getState) => {
     });
 };
 
-const initialState = {
-  role: [], // guest
-  data: {
-    displayName: 'John Doe',
-    photoURL: 'assets/images/avatars/brian-hughes.jpg',
-    email: 'johndoe@withinpixels.com',
-    shortcuts: ['apps.calendar', 'apps.mailbox', 'apps.contacts', 'apps.tasks'],
-  },
-};
+const initialState = {};
 
 const userSlice = createSlice({
   name: 'user',
@@ -111,6 +102,6 @@ export const { userLoggedOut } = userSlice.actions;
 
 export const selectUser = ({ user }) => user;
 
-export const selectUserShortcuts = ({ user }) => user.data.shortcuts;
+export const selectUserShortcuts = ({ user }) => [];
 
 export default userSlice.reducer;

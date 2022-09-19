@@ -1,7 +1,6 @@
 import '../styles/globals.css';
 
-import type { AppProps } from 'next/app';
-import { createWrapper } from 'next-redux-wrapper';
+import { SessionProvider } from 'next-auth/react';
 import { Provider, useStore, useSelector } from 'react-redux';
 import rtlPlugin from 'stylis-plugin-rtl';
 import { SnackbarProvider } from 'notistack';
@@ -20,9 +19,10 @@ import themeLayouts from 'app/theme-layouts/themeLayouts';
 import { selectMainTheme } from 'app/store/fuse/settingsSlice';
 import settingsConfig from 'app/configs/settingsConfig';
 import { AuthProvider } from 'app/auth/AuthContext';
-import { makeStore } from 'app/store';
+import { wrapper } from 'app/store';
 import AppContext from 'app/AppContext';
 import routes from 'app/configs/routesConfig';
+import FuseSplashScreen from '@fuse/core/FuseSplashScreen';
 
 let emotionCacheOptions = {
   rtl: {
@@ -40,55 +40,56 @@ let emotionCacheOptions = {
   },
 };
 
-function MyApp({ Component, pageProps }: AppProps) {
+const MyApp = ({ Component, pageProps }) => {
   const store = useStore();
   const user = useSelector(selectUser);
   const langDirection = useSelector(selectCurrentLanguageDirection);
   const mainTheme = useSelector(selectMainTheme);
+  const session = pageProps.session;
 
   // eslint-disable-next-line react/no-children-prop
   return (
-    <AppContext.Provider
-      value={{
-        routes,
-      }}
-    >
-      <Provider store={store}>
-        <CacheProvider value={createCache(emotionCacheOptions.ltr)}>
-          <FuseTheme theme={mainTheme} direction={langDirection}>
-            <AuthProvider>
-              <BrowserRouter>
-                <FuseAuthorization
-                  userRole={user.role}
-                  loginRedirectUrl={settingsConfig.loginRedirectUrl}
-                >
-                  <SnackbarProvider
-                    maxSnack={5}
-                    anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'right',
-                    }}
-                    classes={{
-                      containerRoot:
-                        'bottom-0 right-0 mb-52 md:mb-68 mr-8 lg:mr-80 z-99',
-                    }}
+    <SessionProvider session={session}>
+      <AppContext.Provider
+        value={{
+          routes,
+        }}
+      >
+        <Provider store={store}>
+          <CacheProvider value={createCache(emotionCacheOptions.ltr)}>
+            <FuseTheme theme={mainTheme} direction={langDirection}>
+              <AuthProvider>
+                <BrowserRouter>
+                  <FuseAuthorization
+                    user={user}
+                    loginRedirectUrl={settingsConfig.loginRedirectUrl}
                   >
-                    <FuseLayout layouts={themeLayouts}>
+                    <SnackbarProvider
+                      maxSnack={5}
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right',
+                      }}
+                      classes={{
+                        containerRoot:
+                          'bottom-0 right-0 mb-52 md:mb-68 mr-8 lg:mr-80 z-99',
+                      }}
+                    >
                       <StyledEngineProvider injectFirst>
-                        {typeof window === 'undefined' ? null : <Component {...pageProps} />}
+                        <FuseLayout layouts={themeLayouts}>
+                          {typeof window === 'undefined' ? <FuseSplashScreen /> : <Component {...pageProps} />}
+                        </FuseLayout>
                       </StyledEngineProvider>
-                    </FuseLayout>
-                  </SnackbarProvider>
-                </FuseAuthorization>
-              </BrowserRouter>
-            </AuthProvider>
-          </FuseTheme>
-        </CacheProvider>
-      </Provider>
-    </AppContext.Provider>
+                    </SnackbarProvider>
+                  </FuseAuthorization>
+                </BrowserRouter>
+              </AuthProvider>
+            </FuseTheme>
+          </CacheProvider>
+        </Provider>
+      </AppContext.Provider>
+    </SessionProvider>
   );
 }
-
-const wrapper = createWrapper(makeStore);
 
 export default wrapper.withRedux(MyApp);

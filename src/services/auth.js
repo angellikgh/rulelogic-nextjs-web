@@ -69,8 +69,11 @@ class AuthService extends FuseUtils.EventEmitter {
         result = result.toObject();
 
         if (result.userauthenticated) {
+          const user = result.party;
+          user.role = ['admin'];
           this.setSession(result.logintoken);
-          this.emit('onLogin', result.party);
+          this.setUserInfo(user);
+          this.emit('onLogin', user);
           resolve(result);
         } else {
           const message = result.code ?? 'Invalid Login or password';
@@ -91,6 +94,7 @@ class AuthService extends FuseUtils.EventEmitter {
   };
 
   updateUserData = (user) => {
+    // TODO: Make the api call
     return null;
   };
 
@@ -102,8 +106,17 @@ class AuthService extends FuseUtils.EventEmitter {
     }
   };
 
+  setUserInfo = (user) => {
+    if (user) {
+      sessionStorage.setItem('rc_me', JSON.stringify(user));
+    } else {
+      sessionStorage.removeItem('rc_me');
+    }
+  };
+
   logout = () => {
     this.setSession(null);
+    this.setUserInfo(null);
     this.emit('onLogout', 'Logged out');
   };
 
@@ -117,6 +130,14 @@ class AuthService extends FuseUtils.EventEmitter {
 
   getAccessToken = () => {
     return window.sessionStorage.getItem('rc_access_token');
+  };
+
+  getUserInfo = () => {
+    const me = window.sessionStorage.getItem('rc_me');
+
+    if (!me) return {};
+
+    return JSON.parse(me);
   };
 }
 

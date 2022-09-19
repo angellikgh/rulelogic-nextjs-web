@@ -25,7 +25,7 @@ const SignOutConfig = {
   auth: null,
   routes: [
     {
-      path: 'sign-out',
+      path: 'account/sign-out',
       element: <SignOutPage />,
     },
   ],
