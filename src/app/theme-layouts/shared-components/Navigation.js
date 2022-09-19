@@ -1,3 +1,4 @@
+import Router from 'next/router';
 import FuseNavigation from '@fuse/core/FuseNavigation';
 import clsx from 'clsx';
 import { memo, useMemo } from 'react';
@@ -14,6 +15,8 @@ function Navigation(props) {
 
   return useMemo(() => {
     function handleItemClick(item) {
+      Router.push(item.url);
+
       if (isMobile) {
         dispatch(navbarCloseMobile());
       }
@@ -29,7 +32,15 @@ function Navigation(props) {
         onItemClick={handleItemClick}
       />
     );
-  }, [dispatch, isMobile, navigation, props.active, props.className, props.dense, props.layout]);
+  }, [
+    dispatch,
+    isMobile,
+    navigation,
+    props.active,
+    props.className,
+    props.dense,
+    props.layout,
+  ]);
 }
 
 Navigation.defaultProps = {
