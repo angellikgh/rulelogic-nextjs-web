@@ -16,7 +16,7 @@ function SignOutPage() {
       <Paper className="flex items-center w-full sm:w-auto min-h-full sm:min-h-auto rounded-0 py-32 px-16 sm:p-48 sm:rounded-2xl sm:shadow">
         <div className="w-full max-w-320 sm:w-320 mx-auto sm:mx-0">
           <img
-            className="w-48 mx-auto"
+            className="w-180 mx-auto"
             src="/assets/images/logo/logo.svg"
             alt="logo"
           />
