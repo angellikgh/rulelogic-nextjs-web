@@ -46,6 +46,7 @@ MyDocument.getInitialProps = async (ctx) => {
             <meta name='author' content='Marcus Marshall,marcusmrshall' />,
             <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no' />,
             <meta name='theme-color' content='#000000' />,
+            <link rel="shortcut icon" href="/favicon.png" />,
             <link rel="stylesheet" href="/assets/tailwind-base.css" />,
             <link rel='stylesheet' href='/assets/fonts/inter/inter.css' />,
             <link rel='stylesheet' href='/assets/fonts/meteocons/style.css' />
