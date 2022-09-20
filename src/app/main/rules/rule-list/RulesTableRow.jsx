@@ -8,18 +8,12 @@ const RulesTableRow = ({ rule, handleClick }) => {
   const {
     title,
     description,
-    enabled,
     info,
     ownerparty,
     recordtype,
     unitprice,
     pricecurrency,
-    onClick,
-    onFavorite,
-    onSubscribe,
-    onStart,
     icon,
-    ...props
   } = rule;
   const isSelected = false;
   const strRecordType = findKey(RuleType, function (v) {
@@ -41,14 +35,6 @@ const RulesTableRow = ({ rule, handleClick }) => {
         handleClick(rule.recordpk, strRecordType.toLowerCase())
       }
     >
-      <TableCell className="w-36 md:w-48 text-center" padding="none">
-        <Checkbox
-          checked={isSelected}
-          onClick={(event) => event.stopPropagation()}
-          onChange={(event) => handleCheck(event, rule.recordpk)}
-        />
-      </TableCell>
-
       <TableCell className="p-1 md:p-12" component="th" scope="row">
         {icon ? (
           <Image alt={title} src={`/${icon}`} width={64} height={64} />

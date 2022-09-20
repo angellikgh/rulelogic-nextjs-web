@@ -78,55 +78,14 @@ function RulesTable({ onChangeCount }) {
     });
   }
 
-  function handleSelectAllClick(event) {
-    if (event.target.checked) {
-      setSelected(rules.map((n) => n.id));
-      return;
-    }
-    setSelected([]);
-  }
-
-  function handleDeselect() {
-    setSelected([]);
-  }
-
   function handleClick(recordpk, type) {
     Router.push(`/rules/edit/${type}/${recordpk}`);
-  }
-
-  function handleCheck(event, id) {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelected(newSelected);
   }
 
   const handleShowMore = useCallback(() => {
     setLoading(true);
     setSkip(count);
   }, [count]);
-
-  // const handleChangeKeyword = debounce((e) => {
-  //   setLoading(true);
-  //   setSkip(0);
-  //   setCount(0);
-  //   setLimit(defaultLimit);
-  //   setRules([]);
-  //   setKeyword(e.target.value);
-  // }, 800);
 
   const handleFavorite = useCallback(
     (id, flag) => () => {
@@ -214,12 +173,9 @@ function RulesTable({ onChangeCount }) {
       <FuseScrollbars className="grow overflow-x-auto">
         <Table stickyHeader className="min-w-xl" aria-labelledby="tableTitle">
           <RulesTableHead
-            selectedOrderIds={selected}
-            order={order}
-            onSelectAllClick={handleSelectAllClick}
             onRequestSort={handleRequestSort}
             rowCount={rules.length}
-            onMenuItemClick={handleDeselect}
+            order={order}
           />
 
           <TableBody>
