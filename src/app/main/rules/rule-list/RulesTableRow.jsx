@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { Avatar, Checkbox, TableCell, TableRow } from '@mui/material';
 import { RuleType } from 'utils/rule_pb';
 import { findKey } from 'lodash';
+import clsx from 'clsx';
 
 const RulesTableRow = ({ rule, handleClick }) => {
   const {
@@ -28,14 +29,17 @@ const RulesTableRow = ({ rule, handleClick }) => {
     ownerparty.company || `${ownerparty.firstname} ${ownerparty.lastname}`;
   return (
     <TableRow
-      className="h-60 cursor-pointer"
+      className={clsx('h-60', { 'cursor-pointer': rule.isrecordowner })}
       hover
       role="checkbox"
       aria-checked={isSelected}
       tabIndex={-1}
       key={rule.recordpk}
       selected={isSelected}
-      onClick={(ev) => handleClick(rule.recordpk, strRecordType.toLowerCase())}
+      onClick={(ev) =>
+        rule.isrecordowner &&
+        handleClick(rule.recordpk, strRecordType.toLowerCase())
+      }
     >
       <TableCell className="w-36 md:w-48 text-center" padding="none">
         <Checkbox
@@ -61,7 +65,11 @@ const RulesTableRow = ({ rule, handleClick }) => {
         )}
       </TableCell>
 
-      <TableCell className="p-8 md:p-12" component="th" scope="row">
+      <TableCell
+        className={clsx('p-8 md:p-12', { 'text-blue': rule.isrecordowner })}
+        component="th"
+        scope="row"
+      >
         {title}
       </TableCell>
 
@@ -84,7 +92,11 @@ const RulesTableRow = ({ rule, handleClick }) => {
       </TableCell>
 
       <TableCell className="p-4 md:p-8" component="th" scope="row">
-        {ownerName && `By ${ownerName} (${strRecordType})`}
+        {ownerName && `By ${ownerName}`}
+      </TableCell>
+
+      <TableCell className="p-4 md:p-8" component="th" scope="row">
+        {strRecordType}
       </TableCell>
 
       <TableCell
@@ -93,7 +105,13 @@ const RulesTableRow = ({ rule, handleClick }) => {
         scope="row"
         align="right"
       >
-        {!!unitprice ? `${unitprice} ${pricecurrency}` : `Free`}
+        {!!unitprice ? (
+          `${unitprice} ${pricecurrency}`
+        ) : (
+          <div className="inline text-12 font-semibold py-4 px-12 rounded-full truncate bg-green text-white">
+            Free
+          </div>
+        )}
       </TableCell>
 
       <TableCell className="p-4 md:p-16" component="th" scope="row"></TableCell>

@@ -23,10 +23,10 @@ const rows = [
     align: 'left',
     disablePadding: false,
     label: '',
-    sort: true,
+    sort: false,
   },
   {
-    id: 'reference',
+    id: 'avatar',
     align: 'left',
     disablePadding: false,
     label: 'Title',
@@ -47,6 +47,13 @@ const rows = [
     sort: true,
   },
   {
+    id: 'type',
+    align: 'left',
+    disablePadding: false,
+    label: 'Type',
+    sort: true,
+  },
+  {
     id: 'payment',
     align: 'right',
     disablePadding: false,
@@ -64,7 +71,7 @@ const rows = [
     id: 'date',
     align: 'left',
     disablePadding: false,
-    label: 'Created On',
+    label: '',
     sort: true,
   },
 ];
