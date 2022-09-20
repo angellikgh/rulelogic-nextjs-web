@@ -26,6 +26,7 @@ function RulesTable(props) {
   const [limit, setLimit] = useState(defaultLimit);
   const [selected, setSelected] = useState([]);
   const [rules, setRules] = useState([]);
+  const [searchKey, setSearchKey] = useState(keyword);
   const [order, setOrder] = useState({
     direction: 'asc',
     id: null,
@@ -35,15 +36,18 @@ function RulesTable(props) {
     if (loading) {
       loadRules();
     }
-  }, [loading, skip, limit, count, keyword, rules]);
+  }, [loading, loadRules]);
 
   useEffect(() => {
+    if (searchKey === keyword) return;
+
+    setSearchKey(keyword);
     setLoading(true);
     setSkip(0);
     setCount(0);
     setLimit(defaultLimit);
     setRules([]);
-  }, [keyword]);
+  }, [searchKey, keyword]);
 
   const loadRules = _.debounce(() => {
     RuleService.getRules({ skip, limit, keyword })

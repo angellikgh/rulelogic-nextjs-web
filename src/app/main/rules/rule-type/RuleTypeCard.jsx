@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Router from 'next/router';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
@@ -51,6 +52,11 @@ function CourseCard({ ruleType, className }) {
               heroicons-solid:arrow-sm-right
             </FuseSvgIcon>
           }
+          onClick={() => {
+            ruleType.enabled &&
+              Router.push(`/rules/edit/${ruleType.title.toLowerCase()}/new`);
+          }}
+          disabled={!ruleType.enabled}
         >
           Continue
         </Button>

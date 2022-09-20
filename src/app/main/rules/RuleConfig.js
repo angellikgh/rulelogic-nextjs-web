@@ -19,7 +19,7 @@ const RuleConfig = {
       element: <RuleType />,
     },
     {
-      path: 'rules/edit/:ruleId',
+      path: 'rules/edit/:type/:ruleId',
       element: <RuleEdit />,
     },
     {
