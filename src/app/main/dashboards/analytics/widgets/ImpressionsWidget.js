@@ -47,7 +47,7 @@ function Impressions(props) {
     <Paper className="flex flex-col flex-auto shadow rounded-2xl overflow-hidden">
       <div className="flex items-start justify-between m-24 mb-0">
         <Typography className="text-lg font-medium tracking-tight leading-6 truncate">
-          Impressions
+          Actions
         </Typography>
         <div className="ml-8">
           <Chip size="small" className="font-medium text-sm" label=" 30 days" />

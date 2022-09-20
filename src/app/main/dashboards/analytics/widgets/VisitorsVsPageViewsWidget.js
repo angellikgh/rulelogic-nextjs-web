@@ -94,7 +94,7 @@ function VisitorsVsPageViewsWidget(props) {
     <Paper className="flex flex-col flex-auto shadow rounded-2xl overflow-hidden">
       <div className="flex items-start justify-between m-24 mb-0">
         <Typography className="text-lg font-medium tracking-tight leading-6 truncate">
-          Visitors vs. Page Views
+          Actions vs. Events
         </Typography>
         <div className="ml-8">
           <Chip size="small" className="font-medium text-sm" label=" 30 days" />
@@ -104,7 +104,9 @@ function VisitorsVsPageViewsWidget(props) {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-42 sm:gap-48">
           <div className="flex flex-col">
             <div className="flex items-center">
-              <div className="font-medium text-secondary leading-5">Overall Score</div>
+              <div className="font-medium text-secondary leading-5">
+                Overall Score
+              </div>
               <Tooltip title="Score is calculated by using the historical ratio between Page Views and Visitors. Best score is 1000, worst score is 0.">
                 <FuseSvgIcon className="ml-6" size={16} color="disabled">
                   heroicons-solid:information-circle
@@ -112,18 +114,24 @@ function VisitorsVsPageViewsWidget(props) {
               </Tooltip>
             </div>
             <div className="flex items-start mt-8">
-              <div className="text-4xl font-bold tracking-tight leading-none">{overallScore}</div>
+              <div className="text-4xl font-bold tracking-tight leading-none">
+                {overallScore}
+              </div>
               <div className="flex items-center ml-8">
                 <FuseSvgIcon className="text-green-500" size={20}>
                   heroicons-solid:arrow-circle-up
                 </FuseSvgIcon>
-                <Typography className="ml-4 text-md font-medium text-green-500">42.9%</Typography>
+                <Typography className="ml-4 text-md font-medium text-green-500">
+                  42.9%
+                </Typography>
               </div>
             </div>
           </div>
           <div className="flex flex-col">
             <div className="flex items-center">
-              <div className="font-medium text-secondary leading-5">Average Ratio</div>
+              <div className="font-medium text-secondary leading-5">
+                Average Ratio
+              </div>
               <Tooltip title="Average Ratio is the average ratio between Page Views and Visitors">
                 <FuseSvgIcon className="ml-6" size={16} color="disabled">
                   heroicons-solid:arrow-circle-up
@@ -131,18 +139,24 @@ function VisitorsVsPageViewsWidget(props) {
               </Tooltip>
             </div>
             <div className="flex items-start mt-8">
-              <div className="text-4xl font-bold tracking-tight leading-none">{averageRatio}%</div>
+              <div className="text-4xl font-bold tracking-tight leading-none">
+                {averageRatio}%
+              </div>
               <div className="flex items-center ml-8">
                 <FuseSvgIcon className="text-red-500" size={20}>
                   heroicons-solid:arrow-circle-down
                 </FuseSvgIcon>
-                <Typography className="ml-4 text-md font-medium text-red-500">13.1%</Typography>
+                <Typography className="ml-4 text-md font-medium text-red-500">
+                  13.1%
+                </Typography>
               </div>
             </div>
           </div>
           <div className="flex flex-col">
             <div className="flex items-center">
-              <div className="font-medium text-secondary leading-5">Predicted Ratio</div>
+              <div className="font-medium text-secondary leading-5">
+                Predicted Ratio
+              </div>
               <Tooltip title="Predicted Ratio is calculated by using historical ratio, current trends and your goal targets.">
                 <FuseSvgIcon className="ml-6" size={16} color="disabled">
                   heroicons-solid:information-circle
@@ -157,7 +171,9 @@ function VisitorsVsPageViewsWidget(props) {
                 <FuseSvgIcon className="text-green-500" size={20}>
                   heroicons-solid:arrow-circle-up
                 </FuseSvgIcon>
-                <Typography className="ml-4 text-md font-medium text-green-500">22.2%</Typography>
+                <Typography className="ml-4 text-md font-medium text-green-500">
+                  22.2%
+                </Typography>
               </div>
             </div>
           </div>
