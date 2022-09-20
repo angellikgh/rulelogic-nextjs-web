@@ -25,18 +25,18 @@ const navigationConfig = [
         url: '/dashboard',
       },
       {
-        id: 'pages.rules',
-        title: 'Rules',
-        type: 'item',
-        icon: 'heroicons-outline:check-circle',
-        url: '/rules',
-      },
-      {
         id: 'pages.events',
         title: 'Events',
         type: 'item',
         icon: 'heroicons-outline:bell',
         url: '/events',
+      },
+      {
+        id: 'pages.rules',
+        title: 'Rules',
+        type: 'item',
+        icon: 'heroicons-outline:check-circle',
+        url: '/rules',
       },
       {
         id: 'pages.actions',
