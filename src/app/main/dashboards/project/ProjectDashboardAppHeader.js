@@ -56,13 +56,13 @@ function ProjectDashboardAppHeader(props) {
           <Avatar
             className="flex-0 w-64 h-64"
             alt="user photo"
-            src={user?.data?.photoURL}
+            src="/assets/images/avatars/male-02.jpg"
           >
-            {user?.data?.displayName[0]}
+            {`${user.firstname} ${user.lastname}`}
           </Avatar>
           <div className="flex flex-col min-w-0 mx-16">
             <Typography className="text-2xl md:text-5xl font-semibold tracking-tight leading-7 md:leading-snug truncate">
-              {`Welcome back, ${user.data.displayName}!`}
+              {`Welcome back, ${user.firstname} ${user.lastname}!`}
             </Typography>
 
             <div className="flex items-center">

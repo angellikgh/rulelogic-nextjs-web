@@ -1,11 +1,33 @@
+import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
-import SummaryWidget from './widgets/SummaryWidget';
-import OverdueWidget from './widgets/OverdueWidget';
-import IssuesWidget from './widgets/IssuesWidget';
-import FeaturesWidget from './widgets/FeaturesWidget';
-import GithubIssuesWidget from './widgets/GithubIssuesWidget';
-import TaskDistributionWidget from './widgets/TaskDistributionWidget';
-import ScheduleWidget from './widgets/ScheduleWidget';
+
+const SummaryWidget = dynamic(() => import('./widgets/SummaryWidget'), {
+  ssr: false,
+});
+const OverdueWidget = dynamic(() => import('./widgets/OverdueWidget'), {
+  ssr: false,
+});
+const IssuesWidget = dynamic(() => import('./widgets/IssuesWidget'), {
+  ssr: false,
+});
+const FeaturesWidget = dynamic(() => import('./widgets/FeaturesWidget'), {
+  ssr: false,
+});
+const GithubIssuesWidget = dynamic(
+  () => import('./widgets/GithubIssuesWidget'),
+  {
+    ssr: false,
+  }
+);
+const TaskDistributionWidget = dynamic(
+  () => import('./widgets/TaskDistributionWidget'),
+  {
+    ssr: false,
+  }
+);
+const ScheduleWidget = dynamic(() => import('./widgets/ScheduleWidget'), {
+  ssr: false,
+});
 
 function HomeTab() {
   const container = {
@@ -43,10 +65,16 @@ function HomeTab() {
       <motion.div variants={item} className="sm:col-span-2 md:col-span-4">
         <GithubIssuesWidget />
       </motion.div>
-      <motion.div variants={item} className="sm:col-span-2 md:col-span-4 lg:col-span-2">
+      <motion.div
+        variants={item}
+        className="sm:col-span-2 md:col-span-4 lg:col-span-2"
+      >
         <TaskDistributionWidget />
       </motion.div>
-      <motion.div variants={item} className="sm:col-span-2 md:col-span-4 lg:col-span-2">
+      <motion.div
+        variants={item}
+        className="sm:col-span-2 md:col-span-4 lg:col-span-2"
+      >
         <ScheduleWidget />
       </motion.div>
     </motion.div>

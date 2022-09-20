@@ -1,1 +1,1 @@
-export { default } from 'app/main/dashboards/analytics/AnalyticsDashboardApp'
+export { default } from 'app/main/dashboards/project/ProjectDashboardApp';

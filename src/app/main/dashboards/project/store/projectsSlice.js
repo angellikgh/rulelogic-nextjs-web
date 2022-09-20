@@ -1,11 +1,14 @@
-import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
+import {
+  createAsyncThunk,
+  createEntityAdapter,
+  createSlice,
+} from '@reduxjs/toolkit';
+import projects from 'src/mock/projects.json';
 
 export const getProjects = createAsyncThunk(
   'projectDashboardApp/projects/getProjects',
   async () => {
-    const response = await axios.get('/api/dashboards/project/projects');
-    return response.data;
+    return projects;
   }
 );
 
