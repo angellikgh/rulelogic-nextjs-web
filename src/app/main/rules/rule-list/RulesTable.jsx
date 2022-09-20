@@ -18,7 +18,7 @@ import { selectRulesSearchText } from '../store/rulesSlice';
 
 const defaultLimit = 40;
 
-function RulesTable(props) {
+function RulesTable({ onChangeCount }) {
   const keyword = useSelector(selectRulesSearchText);
 
   const [loading, setLoading] = useState(true);
@@ -38,6 +38,10 @@ function RulesTable(props) {
       loadRules();
     }
   }, [loading, loadRules]);
+
+  useEffect(() => {
+    onChangeCount(count);
+  }, [count, onChangeCount]);
 
   useEffect(() => {
     if (searchKey === keyword) return;

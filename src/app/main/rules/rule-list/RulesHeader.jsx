@@ -8,7 +8,7 @@ import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { selectRulesSearchText, setRulesSearchText } from '../store/rulesSlice';
 import { Button } from '@mui/material';
 
-function RulesHeader(props) {
+function RulesHeader({ countRules }) {
   const dispatch = useDispatch();
   const searchText = useSelector(selectRulesSearchText);
 
@@ -23,6 +23,18 @@ function RulesHeader(props) {
       >
         Rules
       </Typography>
+      {!!countRules && (
+        <Typography
+          component={motion.span}
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1, transition: { delay: 0.2 } }}
+          delay={500}
+          className="text-14 font-medium ml-16"
+          color="text.secondary"
+        >
+          {`${countRules} Rules`}
+        </Typography>
+      )}
 
       <div className="flex flex-1 items-center justify-end space-x-8 w-full sm:w-auto">
         <Paper
