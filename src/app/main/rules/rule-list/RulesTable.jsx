@@ -1,3 +1,4 @@
+import Router from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
@@ -85,8 +86,8 @@ function RulesTable(props) {
     setSelected([]);
   }
 
-  function handleClick(item) {
-    props.navigate(`/apps/e-commerce/orders/${item.id}`);
+  function handleClick(recordpk, type) {
+    Router.push(`/rules/edit/${type}/${recordpk}`);
   }
 
   function handleCheck(event, id) {
@@ -220,7 +221,13 @@ function RulesTable(props) {
           <TableBody>
             {rules.map((rule) => {
               const isSelected = selected.indexOf(rule.recordpk) !== -1;
-              return <RulesTableRow key={rule.recordpk} rule={rule} />;
+              return (
+                <RulesTableRow
+                  key={rule.recordpk}
+                  rule={rule}
+                  handleClick={handleClick}
+                />
+              );
             })}
           </TableBody>
         </Table>

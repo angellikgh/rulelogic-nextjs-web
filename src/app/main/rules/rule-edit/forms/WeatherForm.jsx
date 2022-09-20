@@ -74,6 +74,8 @@ function WeatherForm({ formRef, rule }) {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
+      if (loading) return;
+
       if (recordPk) {
         values.recordPk = recordPk;
       }

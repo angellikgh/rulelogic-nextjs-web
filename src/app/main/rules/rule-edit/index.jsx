@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useCallback, useRef } from 'react';
+import { useRef } from 'react';
 import FuseLoading from '@fuse/core/FuseLoading';
 import FusePageCarded from '@fuse/core/FusePageCarded';
 import Button from '@mui/material/Button';
@@ -26,35 +26,6 @@ function RuleEdit(props) {
   const [loading, setLoading] = useState(false);
   const [rule, setRule] = useState({});
   const [noProduct, setNoProduct] = useState(false);
-  const [notification, setNotification] = useState({
-    severity: 'success',
-    vertical: 'bottom',
-    horizontal: 'center',
-    autoHideDuration: 5000,
-    open: false,
-    message: '',
-  });
-
-  const handleNotify = useCallback(
-    (options) => {
-      setNotification({
-        ...notification,
-        ...options,
-        open: true,
-      });
-    },
-    [notification]
-  );
-
-  const handleClose = useCallback(
-    (event, reason) => {
-      setNotification({
-        ...notification,
-        open: false,
-      });
-    },
-    [notification]
-  );
 
   useEffect(() => {
     if (type && ruleId && ruleId !== 'new') {
@@ -62,9 +33,10 @@ function RuleEdit(props) {
       RuleService.getRule(ruleId)
         .then(({ rule }) => {
           setLoading(false);
+
           setRule({
             ...rule[type],
-            ...pick(rule, [
+            ..._.pick(rule, [
               'recordpk',
               'partypk',
               'title',
@@ -76,7 +48,8 @@ function RuleEdit(props) {
               'recordenabled',
               'visibility',
             ]),
-            ...pick(rule.location, ['locationcity', 'locationcountry']),
+            ..._.pick(rule.location, ['locationcity', 'locationcountry']),
+            ..._.pick(rule.ownerparty, ['company', 'firstname', 'lastname']),
           });
         })
         .catch(() => setLoading(false));
@@ -95,7 +68,7 @@ function RuleEdit(props) {
         className="flex flex-col flex-1 items-center justify-center h-full"
       >
         <Typography color="text.secondary" variant="h5">
-          There is no such product!
+          There is no such rule!
         </Typography>
         <Button
           className="mt-24"
@@ -109,9 +82,6 @@ function RuleEdit(props) {
     );
   }
 
-  /**
-   * Wait while product data is loading and form is setted
-   */
   if (loading && ruleId !== rule.recordpk && ruleId !== 'new') {
     return <FuseLoading />;
   }

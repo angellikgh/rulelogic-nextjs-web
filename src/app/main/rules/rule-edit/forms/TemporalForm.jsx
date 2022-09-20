@@ -24,6 +24,7 @@ function TemporalForm({ formRef, rule, error }) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [recordPk, setRecordPk] = useState(null);
+  const [partyPk, setPartyPk] = useState(null);
 
   const validationSchema = yup.object({
     title: yup.string('Enter the title').required('Title is required'),
@@ -50,6 +51,9 @@ function TemporalForm({ formRef, rule, error }) {
     if (rule && rule.recordpk) {
       setRecordPk(rule.recordpk);
     }
+    if (rule && rule.partypk) {
+      setPartyPk(rule.partypk);
+    }
   }, [rule]);
 
   const formik = useFormik({
@@ -71,8 +75,14 @@ function TemporalForm({ formRef, rule, error }) {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
+      if (loading) return;
+
       if (recordPk) {
         values.recordPk = recordPk;
+      }
+
+      if (partyPk) {
+        values.partyPk = partyPk;
       }
       setLoading(true);
       RuleService.saveTemporalRule(values)

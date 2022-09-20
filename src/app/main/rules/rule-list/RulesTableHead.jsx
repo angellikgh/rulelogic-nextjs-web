@@ -43,7 +43,7 @@ const rows = [
     id: 'By',
     align: 'left',
     disablePadding: false,
-    label: 'Total',
+    label: 'Owner',
     sort: true,
   },
   {

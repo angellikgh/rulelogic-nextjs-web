@@ -3,7 +3,7 @@ import { Avatar, Checkbox, TableCell, TableRow } from '@mui/material';
 import { RuleType } from 'utils/rule_pb';
 import { findKey } from 'lodash';
 
-const RulesTableRow = ({ rule }) => {
+const RulesTableRow = ({ rule, handleClick }) => {
   const {
     title,
     description,
@@ -35,7 +35,7 @@ const RulesTableRow = ({ rule }) => {
       tabIndex={-1}
       key={rule.recordpk}
       selected={isSelected}
-      onClick={(event) => handleClick(n)}
+      onClick={(ev) => handleClick(rule.recordpk, strRecordType.toLowerCase())}
     >
       <TableCell className="w-36 md:w-48 text-center" padding="none">
         <Checkbox

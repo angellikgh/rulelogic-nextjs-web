@@ -11,6 +11,8 @@ function ProductHeader({ type, rule, formRef }) {
   const theme = useTheme();
   const router = useRouter();
 
+  let ownerName = rule.company || `${rule.firstname} ${rule.lastname}`;
+
   const handleSave = useCallback(() => {
     formRef && formRef.current && formRef.current.click();
   }, [formRef]);
@@ -53,7 +55,7 @@ function ProductHeader({ type, rule, formRef }) {
             </Typography>
             <Typography variant="caption" className="font-medium">
               {rule.recordpk
-                ? `#${rule.recordpk} - ${rule.title}`
+                ? `${rule.title} By ${ownerName || '***'}`
                 : `Please fill out the information`}
             </Typography>
           </motion.div>
