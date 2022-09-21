@@ -141,7 +141,7 @@ function FuseLayout(props) {
   const Layout = useMemo(
     // () => layouts[settings.layout.style],
     () => layouts.layout1,
-    [layouts, settings.layout.style]
+    [layouts]
   );
 
   return _.isEqual(newSettings.current, settings) ? (

@@ -53,7 +53,7 @@ function RuleType() {
     if (RuleTypes) {
       setFilteredData(getFilteredArray());
     }
-  }, [RuleTypes, hideDisabled, searchText, selectedCategory]);
+  }, [hideDisabled, searchText, selectedCategory]);
 
   function handleSelectedCategory(event) {
     setSelectedCategory(event.target.value);
@@ -197,7 +197,7 @@ function RuleType() {
               filteredData &&
               (filteredData.length > 0 ? (
                 <motion.div
-                  className="flex grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-32 mt-32 sm:mt-40"
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-32 mt-32 sm:mt-40"
                   variants={container}
                   initial="hidden"
                   animate="show"

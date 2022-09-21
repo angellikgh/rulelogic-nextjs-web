@@ -180,6 +180,7 @@ function BoardCardForm(props) {
                   value.map((option, index) => {
                     return (
                       <Chip
+                        key={index}
                         label={option.title}
                         {...getTagProps({ index })}
                         className="m-3"
@@ -229,6 +230,7 @@ function BoardCardForm(props) {
                   value.map((option, index) => {
                     return (
                       <Chip
+                        key={`c_${index}`}
                         label={option.name}
                         {...getTagProps({ index })}
                         className={clsx('m-3', option.class)}

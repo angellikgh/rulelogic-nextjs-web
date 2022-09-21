@@ -59,10 +59,21 @@ function FuseNavHorizontalLink(props) {
           classes={{ primary: 'text-13 fuse-list-item-text-primary truncate' }}
         />
 
-        {item.badge && <FuseNavBadge className="ltr:ml-8 rtl:mr-8" badge={item.badge} />}
+        {item.badge && (
+          <FuseNavBadge className="ltr:ml-8 rtl:mr-8" badge={item.badge} />
+        )}
       </StyledListItem>
     ),
-    [item.badge, item.icon, item.iconClass, item.target, item.title, item.url]
+    [
+      item.disabled,
+      item.sx,
+      item.badge,
+      item.icon,
+      item.iconClass,
+      item.target,
+      item.title,
+      item.url,
+    ]
   );
 }
 

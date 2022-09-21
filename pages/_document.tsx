@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-css-tags */
 /* eslint-disable react/jsx-key */
 import React from "react";
 import Document, { Html, Main, NextScript, Head } from "next/document";

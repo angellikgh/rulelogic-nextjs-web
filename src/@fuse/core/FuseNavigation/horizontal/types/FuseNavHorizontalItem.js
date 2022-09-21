@@ -66,7 +66,17 @@ function FuseNavHorizontalItem(props) {
         )}
       </StyledListItem>
     ),
-    [item.badge, item.exact, item.icon, item.iconClass, item.title, item.url]
+    [
+      item.active,
+      item.disabled,
+      item.end,
+      item.sx,
+      item.badge,
+      item.icon,
+      item.iconClass,
+      item.title,
+      item.url,
+    ]
   );
 }
 
