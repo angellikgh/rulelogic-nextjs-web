@@ -1,7 +1,1 @@
-import AnalyticsDashboardApp from 'app/main/dashboards/analytics/AnalyticsDashboardApp'
-
-const Home = () => {
-  return <AnalyticsDashboardApp />;
-}
-
-export default Home;
+export { default } from 'app/main/dashboards/project/ProjectDashboardApp';
