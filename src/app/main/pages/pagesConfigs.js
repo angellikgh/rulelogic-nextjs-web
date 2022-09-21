@@ -11,7 +11,6 @@ const pagesConfigs = [
   comingSoonPagesConfig,
   errorPagesConfig,
   maintenancePageConfig,
-  invoicePagesConfig,
   activitiesPageConfig,
   pricingPagesConfig,
   searchPagesConfig,
