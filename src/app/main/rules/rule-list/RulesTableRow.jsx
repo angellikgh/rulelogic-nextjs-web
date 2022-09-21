@@ -55,6 +55,13 @@ const RulesTableRow = ({ rule, onClick, onStart, onSubscribe, onFavorite }) => {
     ownerparty.company || `${ownerparty.firstname} ${ownerparty.lastname}`;
   const isFavorite = info.hasviewerfavouritedrecord;
   const isSubscribed = info.hasviewersubscribed;
+
+  const hookClickEvent = (cb) => (e) => {
+    e.stopPropagation();
+
+    cb && cb(e);
+  };
+
   return (
     <TableRow
       className={clsx('h-60', { 'cursor-pointer': rule.isrecordowner })}
@@ -86,7 +93,7 @@ const RulesTableRow = ({ rule, onClick, onStart, onSubscribe, onFavorite }) => {
       </TableCell>
 
       <TableCell className="p-1 md:p-4" component="th" scope="row">
-        <ActionButton onClick={onFavorite} sx={{ width: 36 }}>
+        <ActionButton onClick={hookClickEvent(onFavorite)} sx={{ width: 36 }}>
           {isFavorite ? (
             <>
               <FavoriteIcon fontSize="small" sx={{ color: Yellow[600] }} />
@@ -159,7 +166,7 @@ const RulesTableRow = ({ rule, onClick, onStart, onSubscribe, onFavorite }) => {
             <ActionButton
               variant="outlined"
               color={rule.recordstatus ? 'secondary' : 'primary'}
-              onClick={onStart}
+              onClick={hookClickEvent(onStart)}
             >
               {rule.recordstatus ? (
                 <>
@@ -190,7 +197,7 @@ const RulesTableRow = ({ rule, onClick, onStart, onSubscribe, onFavorite }) => {
             <ActionButton
               variant="outlined"
               color={isSubscribed ? 'secondary' : 'primary'}
-              onClick={onSubscribe}
+              onClick={hookClickEvent(onSubscribe)}
             >
               {isSubscribed ? (
                 <>
