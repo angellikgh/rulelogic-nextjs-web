@@ -185,7 +185,19 @@ function RulesTable({ onChangeCount }) {
                 <RulesTableRow
                   key={rule.recordpk}
                   rule={rule}
-                  handleClick={handleClick}
+                  onClick={handleClick}
+                  onFavorite={handleFavorite(
+                    rule.recordpk,
+                    !rule.info.hasviewerfavouritedrecord
+                  )}
+                  onSubscribe={handleSubscribe(
+                    rule.recordpk,
+                    !rule.info.hasviewersubscribed
+                  )}
+                  onStart={handleChangeStatus(
+                    rule.recordpk,
+                    !rule.recordstatus
+                  )}
                 />
               );
             })}

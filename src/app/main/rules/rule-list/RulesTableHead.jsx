@@ -14,6 +14,13 @@ const rows = [
     sort: false,
   },
   {
+    id: 'favorite',
+    align: 'center',
+    disablePadding: false,
+    label: '',
+    sort: false,
+  },
+  {
     id: 'avatar',
     align: 'left',
     disablePadding: false,
@@ -52,12 +59,12 @@ const rows = [
     id: 'status',
     align: 'left',
     disablePadding: false,
-    label: 'Status',
+    label: '',
     sort: true,
   },
   {
     id: 'date',
-    align: 'left',
+    align: 'right',
     disablePadding: false,
     label: '',
     sort: true,
