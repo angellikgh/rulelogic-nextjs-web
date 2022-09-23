@@ -29,6 +29,12 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+### How to generate `.js` file from `.proto` file.
+
+```shell
+protoc -I=. [FILE_NAME].proto --js_out=import_style=commonjs:. --grpc-web_out=import_style=commonjs,mode=grpcwebtext:.
+```
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
