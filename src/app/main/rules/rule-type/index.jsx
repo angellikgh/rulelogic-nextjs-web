@@ -131,7 +131,7 @@ function RuleType() {
                 </Select>
               </FormControl>
               <TextField
-                label="Search for a course"
+                label="Search for a rules"
                 placeholder="Enter a keyword..."
                 className="flex w-full sm:w-256 mx-8"
                 value={searchText}
@@ -170,7 +170,7 @@ function RuleType() {
               }
               onClick={() => Router.push('/rules')}
             >
-              Back to courses
+              Back to rules
             </Button>
           </div>
           {useMemo(() => {
