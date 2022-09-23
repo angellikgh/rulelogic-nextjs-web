@@ -49,13 +49,13 @@ function ActionsHeader({ countActions }) {
           <FuseSvgIcon color="disabled">heroicons-solid:search</FuseSvgIcon>
 
           <Input
-            placeholder="Search orders"
+            placeholder="Search actions"
             className="flex flex-1"
             disableUnderline
             fullWidth
             value={searchText}
             inputProps={{
-              'aria-label': 'Search Orders',
+              'aria-label': 'Search Actions',
             }}
             onChange={(ev) => dispatch(setActionsSearchText(ev))}
           />

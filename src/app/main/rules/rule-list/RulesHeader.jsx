@@ -46,13 +46,13 @@ function RulesHeader({ countRules }) {
           <FuseSvgIcon color="disabled">heroicons-solid:search</FuseSvgIcon>
 
           <Input
-            placeholder="Search orders"
+            placeholder="Search rules"
             className="flex flex-1"
             disableUnderline
             fullWidth
             value={searchText}
             inputProps={{
-              'aria-label': 'Search Orders',
+              'aria-label': 'Search Rules',
             }}
             onChange={(ev) => dispatch(setRulesSearchText(ev))}
           />
