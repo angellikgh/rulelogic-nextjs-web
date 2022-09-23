@@ -1,0 +1,236 @@
+syntax = "proto3";
+
+package io.rulelogic.api;
+
+import "common/common.proto";
+
+import "party.proto";
+
+
+
+
+
+service ActionService {
+
+  rpc getSingleRecord    (CommonSearchRequest)        returns (ActionSearchSingleResponse);
+  rpc listRecords        (CommonSearchListRequest)    returns (ActionListResponse) ;
+
+  rpc listRecordsByType    (ActionSearchByTypeListRequest)        returns (ActionListResponse) ;
+
+  rpc updateRecord       (ActionDmlUpdateRequest)     returns (ActionDmlUpdateResponse) ;
+  rpc deleteRecord       (CommonDeleteRequest)        returns (ActionDmlDeleteResponse) ;
+  rpc createRecord       (ActionDmlCreateRequest)     returns (ActionDmlCreateResponse) ;
+  rpc duplicateRecord    (CommonDuplicateRequest)   returns (ActionDmlCreateResponse) ;
+
+
+  rpc linkActionToEvent  (EventActionLinkRequest)      returns (ActionDmlUpdateResponse) ;
+  rpc changeActionStatus (CommonStatusChangeRequest)   returns (ActionDmlUpdateResponse) ;
+  rpc associateParty     (CommonPartyAssociateRequest) returns (ActionDmlUpdateResponse) ;
+  rpc rateAction         (CommonRateRequest)           returns (ActionDmlUpdateResponse) ;
+
+  rpc listEventActions    (EventActionsListRequest)    returns (ActionListResponse) ;
+
+
+}
+
+
+/*
+  Email = 0;
+  Sms = 1;
+  Voice  = 2;
+  Api = 3;
+  Tweet = 4;
+  Ping = 5;
+  Callback = 6;
+  Notification = 7;
+*/
+// enum ActionType {
+//   Email = 0;
+//   Sms = 1;
+//   VoiceE=2;
+//   Ping=3; // SEND a message to an event hub
+//   Notification=4;
+//   Callback = 5;
+//   Api = 6;
+//   Tweet = 9;
+// }
+
+enum ActionType {
+  EMAIL = 0;
+  SMS = 1;
+  VOICE = 2;
+  PING = 3;
+  NOTIFICATION = 4;
+  CALLBACK = 5;
+  API = 6;
+  TWEET = 7;
+
+}
+
+message Email {
+  string emailMessageFrom = 1;
+  string emailMessageCC = 2;
+  string emailMessageBcc = 3;
+  string emailMessageTo = 4;
+  string emailMessageSubject = 5;
+  string emailMessageBody = 6;
+}
+
+message Sms {
+  string smsMessageFrom = 1;
+  string smsMessageTo = 2;
+  string smsMessage = 3;
+  string smsMessageTitle = 4;
+}
+
+message Voice {
+  string voiceMessageFrom = 1;
+  string voiceMessageTo = 2;
+  string voiceMessage = 3;
+  string voiceMessageTitle = 4;
+}
+
+
+message Ping {
+  string pingCode = 1;  // ping message/code
+  string pingMessage = 2;
+}
+
+
+message ActionInfo {
+  string recordPk = 1;
+  string ownerPartyPk = 2;
+  string ownerTitle = 3;                  // title used - starting with By - note: for Person is first+last, for company is company title
+  string recordTitleFirstLetter = 4;      // used for displaying round icon
+  string recordTitleColor = 5;            // used for color of display icon
+  bool   isStatusOn = 9;                  // is the event status on - populated at runtime     
+  int32  queryTotalRecord = 10;           // the total records count from query for pagination - populated at rumtime 
+  bool   isViewerPartyRecordOwner = 20;   // is the party which is viewing this record the owner or not - populate at runtime
+  bool   hasViewerSubscribed = 21;        // is the party which is viewing this record the subscribed or not - populate at runtime
+  bool   hasViewerFavouritedRecord=22;    // is the party which is viewing this record the owner or not - populate at runtime
+  
+}
+
+/// Shows analytics and aggregation for event
+message ActionAnalytics {
+  string recordPk = 1;
+  int32  eventsCount = 10;
+  int32  subscribersCount = 12;
+  int32  favouritesCount = 13;
+  int32  reviewsCount = 14;
+  double reviewRating = 15; 
+}
+
+
+message Action {
+
+
+
+  string recordPk = 1;
+  string code = 2;
+  string title = 3;
+  string description = 4;
+  string priceCurrency = 5;
+  float  unitPrice = 6;
+  string partyPk = 8;
+
+  bool recordEnabled = 10;
+  bool recordStatus = 16;
+  Party ownerParty = 19;
+  bool  isRecordOwner = 20;
+
+  ActionInfo  info = 21;
+  ActionAnalytics analytics = 22;
+
+  actionTypeEnum recordType = 30;
+  VisibilityType visibility = 31;
+
+  Email email = 32;
+  Sms sms = 33;
+  Voice voice = 34;
+  Ping ping=35;
+ 
+  Omd omd = 36;
+
+}
+
+
+message EventActionLinkRequest {
+  string id = 1;  // Action Id
+  string eventPk = 2; /// Event which is adding/removing link
+  bool enable = 3; // true, meaning link, or false unlink
+  AuthDetail authDetail = 10;
+}
+
+
+
+message EventActionsListRequest {
+  string eventKey = 1;  // Event Id to show rules attached
+  AuthDetail authDetail = 10;
+}
+
+message ActionSearchByTypeListRequest {
+
+  int32 skip = 1;  // Skip number of records - default is 0
+  int32 limit = 2;  // number of records to return - default is 10
+  SearchScope searchScope = 3;  // scope of data owned, vs all 
+  actionTypeEnum actionType = 4;  // list records by type for example Temporal, Api, etc.
+  AuthDetail authDetail = 10;
+}
+
+
+message ActionSearchSingleResponse {
+
+  Action action = 1;
+  ResponseStatus responseStatus = 2;
+  RecordMetadata recordMetadata = 3;
+
+}
+
+
+
+
+message ActionListResponse {
+  int32 skip = 1;
+  int32 limit = 2;
+  repeated Action actions = 3;
+  ResponseStatus responseStatus = 4;
+  PaginationInfo paginationInfo = 5;
+
+}
+
+
+
+message ActionDmlCreateRequest {
+  Action action = 1; 
+  string requestMessage  = 2;
+  AuthDetail authDetail = 10;
+}
+
+message ActionDmlCreateResponse {
+
+  Action action = 1;
+  ResponseStatus responseStatus = 2;
+}
+
+message ActionDmlUpdateResponse {
+  Action action = 1;
+  ResponseStatus responseStatus = 2;
+}
+
+message ActionDmlUpdateRequest {
+
+  Action action = 1;
+  ResponseStatus responseStatus = 2;
+  AuthDetail authDetail = 10;
+  
+}
+
+// Delete
+message ActionDmlDeleteResponse {
+  string id = 1;
+  ResponseStatus responseStatus = 2;
+
+}
+
+

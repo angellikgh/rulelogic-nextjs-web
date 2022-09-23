@@ -1,1 +1,1 @@
-export { default } from 'app/main/pages/maintenance/MaintenancePage'
+export { default } from 'app/main/actions/action-list';

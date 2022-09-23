@@ -7,6 +7,7 @@ import SignInConfig from '../main/sign-in/SignInConfig';
 import SignUpConfig from '../main/sign-up/SignUpConfig';
 import SignOutConfig from '../main/sign-out/SignOutConfig';
 import RuleConfig from '../main/rules/RuleConfig';
+import ActionConfig from '../main/actions/ActionConfig';
 import dashboardsConfigs from '../main/dashboards/dashboardsConfigs';
 import appsConfigs from '../main/apps/appsConfigs';
 import pagesConfigs from '../main/pages/pagesConfigs';
@@ -22,6 +23,7 @@ const routeConfigs = [
   SignInConfig,
   SignUpConfig,
   RuleConfig,
+  ActionConfig,
 ];
 
 const routes = [
