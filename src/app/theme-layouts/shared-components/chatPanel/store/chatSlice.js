@@ -7,20 +7,20 @@ import { getChats } from './chatsSlice';
 export const getChat = createAsyncThunk(
   'chatPanel/chat/getChat',
   async (contactId, { dispatch, getState }) => {
-    const response = await axios.get(`/api/chat/chats/${contactId}`);
+    // const response = await axios.get(`/api/chat/chats/${contactId}`);
+    // const data = await response.data;
+    // dispatch(setSelectedContactId(contactId));
 
-    const data = await response.data;
-
-    dispatch(setSelectedContactId(contactId));
-
-    return data;
+    return {};
   }
 );
 
 export const sendMessage = createAsyncThunk(
   'chatPanel/chat/sendMessage',
   async ({ messageText, chatId, contactId }, { dispatch, getState }) => {
-    const response = await axios.post(`/api/chat/chats/${contactId}`, messageText);
+    // const response = await axios.post(`/api/chat/chats/${contactId}`,
+    //   messageText
+    // );
 
     const data = await response.data;
 

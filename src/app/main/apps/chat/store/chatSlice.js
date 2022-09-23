@@ -16,7 +16,7 @@ export const getChat = createAsyncThunk(
 export const sendMessage = createAsyncThunk(
   'chatApp/chat/sendMessage',
   async ({ messageText, chatId, contactId }, { dispatch, getState }) => {
-    const response = await axios.post(`/api/chat/chats/${contactId}`, messageText);
+    // const response = await axios.post(`/api/chat/chats/${contactId}`, messageText);
 
     const data = await response.data;
 

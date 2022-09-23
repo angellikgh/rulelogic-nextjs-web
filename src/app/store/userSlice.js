@@ -73,14 +73,14 @@ export const updateUserData = (user) => async (dispatch, getState) => {
     return;
   }
 
-  jwtService
-    .updateUserData(user)
-    .then(() => {
-      dispatch(showMessage({ message: 'User data saved with api' }));
-    })
-    .catch((error) => {
-      dispatch(showMessage({ message: error.message }));
-    });
+  // jwtService
+  //   .updateUserData(user)
+  //   .then(() => {
+  //     dispatch(showMessage({ message: 'User data saved with api' }));
+  //   })
+  //   .catch((error) => {
+  //     dispatch(showMessage({ message: error.message }));
+  //   });
 };
 
 const initialState = {};

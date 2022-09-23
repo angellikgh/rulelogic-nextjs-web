@@ -36,7 +36,7 @@ function UserSidebar(props) {
   }, [reset, user]);
 
   function onSubmit(data) {
-    dispatch(updateUserData(data));
+    // dispatch(updateUserData(data));
   }
 
   if (_.isEmpty(form)) {
