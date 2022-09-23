@@ -25,7 +25,7 @@ const ActionTypes = [
     title: 'Notification',
     description: 'description notification',
     icon: 'notification.png',
-    enabled: false,
+    enabled: true,
   },
   {
     order: 5,
