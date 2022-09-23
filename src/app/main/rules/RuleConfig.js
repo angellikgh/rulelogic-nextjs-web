@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 
 // const RuleList = lazy(() => import('./RuleList'));
 const RuleType = lazy(() => import('./rule-type'));
-const RuleEdit = lazy(() => import('./RuleEdit'));
+const RuleEdit = lazy(() => import('./rule-edit'));
 
 const RuleConfig = {
   settings: {
