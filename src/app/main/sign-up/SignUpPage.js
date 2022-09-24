@@ -143,7 +143,6 @@ function SignUpPage() {
                   {...field}
                   className="mb-24"
                   label="Last Name"
-                  autoFocus
                   type="name"
                   error={!!errors.lastName}
                   helperText={errors?.lastName?.message}
@@ -162,7 +161,6 @@ function SignUpPage() {
                   {...field}
                   className="mb-24"
                   label="First Name"
-                  autoFocus
                   type="name"
                   error={!!errors.firstName}
                   helperText={errors?.firstName?.message}
