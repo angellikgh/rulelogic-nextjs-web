@@ -53,14 +53,6 @@ function SignInPage() {
 
   const { isValid, dirtyFields, errors } = formState;
 
-  useEffect(() => {
-    setValue('email', '', {
-      shouldDirty: true,
-      shouldValidate: true,
-    });
-    setValue('password', '', { shouldDirty: true, shouldValidate: true });
-  }, [setValue]);
-
   function onSubmit({ email, password }) {
     setLoading(true);
     AuthService.signInWithEmailAndPassword(email, password)
