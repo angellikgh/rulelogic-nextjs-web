@@ -18,31 +18,19 @@ import CustomTextField from 'components/Form/CustomTextField';
 import ActionService from 'services/actions';
 import { showMessage } from 'app/store/fuse/messageSlice';
 
-function WeatherForm({ formRef, action }) {
+function SmsForm({ formRef, action }) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [recordPk, setRecordPk] = useState(null);
   const [partyPk, setPartyPk] = useState(null);
 
   const validationSchema = yup.object({
-    title: yup.string('Enter the title').required('Title is required'),
+    title: yup.string('Enter the subject').required('Subject is required'),
     description: yup
-      .string('Enter the description')
-      .required('Description is required'),
-    weather: yup
-      .string('Enter the weather')
-      .required('Please select the weather'),
-    temperatureUnit: yup
-      .string('Enter the temperature unit')
-      .required('Temperature unit is required'),
-    fromTemperature: yup
-      .string('Enter the day of month')
-      .required('From temperature is required'),
-    toTemperature: yup
-      .string('Enter the day of week')
-      .required('To temperature is required'),
-    city: yup.string('Enter the city').required('City is required'),
-    country: yup.string('Enter the country').required('Country is required'),
+      .string('Enter the content')
+      .required('Content is required'),
+    from: yup.string('Enter the from').required('Please select the from'),
+    to: yup.string('Enter the receiver').required('Receiver is required'),
     currency: yup.string('Enter the currency'),
     price: yup.string('Enter the price'),
   });
@@ -59,14 +47,10 @@ function WeatherForm({ formRef, action }) {
 
   const formik = useFormik({
     initialValues: {
-      title: action.title || '',
-      description: action.title || '',
-      weather: action.weathertext || constants.weatherTextList[0],
-      temperatureUnit: action.temperatureunit || 0,
-      fromTemperature: action.temperaturefrom || 0,
-      toTemperature: action.temperatureto || 0,
-      city: action.locationcity || '',
-      country: action.locationcountry || '',
+      title: action.smsmessagetitle || '',
+      description: action.smsmessage || '',
+      from: action.smsmessagefrom || '',
+      to: action.smsmessageto || '',
       currency: action.pricecurrency || '',
       price: action.unitprice || '',
       enabled: !!action.recordenabled || true,
@@ -83,7 +67,7 @@ function WeatherForm({ formRef, action }) {
         values.partyPk = partyPk;
       }
       setLoading(true);
-      ActionService.saveWeatherAction(values)
+      ActionService.saveSmsAction(values)
         .then((res) => {
           setRecordPk(res.action.recordpk);
           setLoading(false);
@@ -118,8 +102,24 @@ function WeatherForm({ formRef, action }) {
     >
       <CustomTextField
         type="text"
+        name="from"
+        label="From *"
+        formik={formik}
+        disabled={loading}
+      />
+
+      <CustomTextField
+        type="text"
+        name="to"
+        label="To *"
+        formik={formik}
+        disabled={loading}
+      />
+
+      <CustomTextField
+        type="text"
         name="title"
-        label="Title *"
+        label="Subject *"
         formik={formik}
         disabled={loading}
       />
@@ -127,101 +127,12 @@ function WeatherForm({ formRef, action }) {
       <CustomTextField
         type="text"
         name="description"
-        label="Description *"
+        label="Content *"
         multiline
         rows={2}
         formik={formik}
         disabled={loading}
       />
-
-      <TextField
-        id="weather"
-        name="weather"
-        select
-        label="Weather"
-        disabled={loading}
-        onChange={formik.handleChange}
-        defaultValue={formik.values.weather}
-        helperText={formik.touched.weather && formik.errors.weather}
-        error={formik.touched.weather && Boolean(formik.errors.weather)}
-      >
-        {constants.weatherTextList.map((label, index) => (
-          <MenuItem key={label} value={label}>
-            {label}
-          </MenuItem>
-        ))}
-      </TextField>
-
-      <TextField
-        id="temperatureUnit"
-        name="temperatureUnit"
-        select
-        label="Temperature Unit"
-        disabled={loading}
-        onChange={formik.handleChange}
-        defaultValue={formik.values.temperatureUnit}
-        helperText={
-          formik.touched.temperatureUnit && formik.errors.temperatureUnit
-        }
-        error={
-          formik.touched.temperatureUnit &&
-          Boolean(formik.errors.mtemperatureUnitonth)
-        }
-      >
-        {constants.temperatureUnitList.map((label, index) => (
-          <MenuItem key={label} value={index}>
-            {label}
-          </MenuItem>
-        ))}
-      </TextField>
-
-      <Stack direction="row" spacing={2}>
-        <CustomTextField
-          type="text"
-          name="fromTemperature"
-          label="From Temperature *"
-          formik={formik}
-          disabled={loading}
-          sx={{ width: '50%' }}
-          inputProps={{ style: { textAlign: 'right' } }}
-        />
-
-        <CustomTextField
-          type="text"
-          name="toTemperature"
-          label="To Temperature *"
-          formik={formik}
-          disabled={loading}
-          sx={{ width: '50%' }}
-          inputProps={{ style: { textAlign: 'right' } }}
-        />
-      </Stack>
-
-      <Stack direction="row" spacing={2}>
-        <TextField
-          id="city"
-          name="city"
-          label="City"
-          sx={{ width: '50%' }}
-          disabled={loading}
-          onChange={formik.handleChange}
-          defaultValue={formik.values.city}
-          helperText={formik.touched.city && formik.errors.city}
-          error={formik.touched.city && Boolean(formik.errors.city)}
-        />
-
-        <TextField
-          id="country"
-          name="country"
-          label="Country *"
-          sx={{ width: '50%' }}
-          disabled={loading}
-          onChange={formik.handleChange}
-          defaultValue={formik.values.country}
-          helperText={formik.touched.country && formik.errors.country}
-          error={formik.touched.country && Boolean(formik.errors.country)}
-        />
-      </Stack>
 
       <Stack direction="row" spacing={2}>
         <TextField
@@ -284,15 +195,10 @@ function WeatherForm({ formRef, action }) {
       </Stack>
 
       <Box>
-        <Button
-          ref={formRef}
-          type="submit"
-          loading={loading}
-          sx={{ display: 'none' }}
-        />
+        <Button ref={formRef} type="submit" sx={{ display: 'none' }} />
       </Box>
     </Stack>
   );
 }
 
-export default WeatherForm;
+export default SmsForm;

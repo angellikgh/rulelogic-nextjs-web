@@ -1,5 +1,8 @@
+import { ActionType } from 'utils/action_pb';
+
 const ActionTypes = [
   {
+    id: ActionType.EMAIL,
     order: 1,
     title: 'Email',
     description: 'description email',
@@ -7,6 +10,7 @@ const ActionTypes = [
     enabled: true,
   },
   {
+    id: ActionType.SMS,
     order: 2,
     title: 'SMS',
     description: 'description sms',
@@ -14,6 +18,7 @@ const ActionTypes = [
     enabled: true,
   },
   {
+    id: ActionType.VOICE,
     order: 3,
     title: 'Voice Message',
     description: 'description voice message',
@@ -21,6 +26,7 @@ const ActionTypes = [
     enabled: true,
   },
   {
+    id: ActionType.NOTIFICATION,
     order: 4,
     title: 'Notification',
     description: 'description notification',

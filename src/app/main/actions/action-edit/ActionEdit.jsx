@@ -10,32 +10,54 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import _ from 'lodash';
 import { FormProvider } from 'react-hook-form';
-import reducer from '../store';
 
 import ActionEditHeader from './ActionEditHeader';
-import TemporalForm from './forms/TemporalForm';
-import WeatherForm from './forms/WeatherForm';
-import SharePriceForm from './forms/SharePriceForm';
+import EmailForm from './forms/EmailForm';
+import SmsForm from './forms/SmsForm';
+import VoiceMessageForm from './forms/VoiceMessageForm';
+import NotificationForm from './forms/NotificationForm';
 import ActionService from 'services/actions';
+import reducer from '../store';
+import { ActionType } from 'utils/action_pb';
+import ActionTypes from 'src/constants/ActionTypes';
 
 function ActionEdit(props) {
   const formRef = useRef(null);
   const router = useRouter();
   const isMobile = useThemeMediaQuery((theme) => theme.breakpoints.down('lg'));
   const { type, actionId } = router.query;
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [action, setAction] = useState({});
-  const [noProduct, setNoProduct] = useState(false);
+  const [typeId, setTypeId] = useState('');
+  const [strType, setStrType] = useState('');
 
   useEffect(() => {
-    if (type && actionId && actionId !== 'new') {
+    if (type !== undefined) {
+      const key = _.findKey(
+        ActionType,
+        (v) => v === parseInt(type)
+      ).toLowerCase();
+
+      setTypeId(key);
+
+      const title = _.get(
+        _.find(ActionTypes, (v) => v.id === parseInt(type)),
+        'title'
+      );
+
+      setStrType(title);
+    }
+  }, [type]);
+
+  useEffect(() => {
+    if (typeId && actionId && actionId !== 'new') {
       setLoading(true);
       ActionService.getAction(actionId)
         .then(({ action }) => {
           setLoading(false);
 
           setAction({
-            ...action[type],
+            ...action[typeId],
             ..._.pick(action, [
               'recordpk',
               'partypk',
@@ -55,12 +77,16 @@ function ActionEdit(props) {
         .catch(() => setLoading(false));
     }
 
-    if (!actionId || actionId === 'new') {
+    if (actionId === 'new') {
       setLoading(false);
     }
-  }, [type, actionId]);
+  }, [actionId, typeId]);
 
-  if (noProduct) {
+  if (loading && actionId !== 'new') {
+    return <FuseLoading />;
+  }
+
+  if (!loading && !action.recordpk && actionId !== 'new') {
     return (
       <motion.div
         initial={{ opacity: 0 }}
@@ -73,7 +99,7 @@ function ActionEdit(props) {
         <Button
           className="mt-24"
           variant="outlined"
-          onClick={() => {}}
+          onClick={() => router.push('/actions')}
           color="inherit"
         >
           Go to Actions Page
@@ -82,26 +108,25 @@ function ActionEdit(props) {
     );
   }
 
-  if (loading && actionId !== action.recordpk && actionId !== 'new') {
-    return <FuseLoading />;
-  }
-
   return (
     <FormProvider>
       <FusePageCarded
         header={
-          <ActionEditHeader type={type} formRef={formRef} action={action} />
+          <ActionEditHeader title={strType} formRef={formRef} action={action} />
         }
         content={
           <>
-            {type === 'temporal' && (
-              <TemporalForm formRef={formRef} action={action} />
+            {parseInt(type) === ActionType.EMAIL && (
+              <EmailForm formRef={formRef} action={action} />
             )}
-            {type === 'weather' && (
-              <WeatherForm formRef={formRef} action={action} />
+            {parseInt(type) === ActionType.SMS && (
+              <SmsForm formRef={formRef} action={action} />
             )}
-            {type === 'shares' && (
-              <SharePriceForm formRef={formRef} action={action} />
+            {parseInt(type) === ActionType.VOICE && (
+              <VoiceMessageForm formRef={formRef} action={action} />
+            )}
+            {parseInt(type) === ActionType.NOTIFICATION && (
+              <NotificationForm formRef={formRef} action={action} />
             )}
           </>
         }

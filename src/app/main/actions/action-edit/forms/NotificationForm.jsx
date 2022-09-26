@@ -1,3 +1,4 @@
+import Router from 'next/router';
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
@@ -9,37 +10,24 @@ import {
   FormControlLabel,
   Checkbox,
   Button,
-  Box,
 } from '@mui/material';
 import TextField from '@mui/material/TextField';
+import Box from '@mui/system/Box';
 
 import * as constants from 'src/constants';
 import CustomTextField from 'components/Form/CustomTextField';
+import ActionService from 'services/actions';
 import { showMessage } from 'app/store/fuse/messageSlice';
 
-function ShardPriceForm({ formRef, action, error, onNotify }) {
+function EmailForm({ formRef, action, error }) {
   const dispatch = useDispatch();
-  const [loading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [recordPk, setRecordPk] = useState(null);
+  const [partyPk, setPartyPk] = useState(null);
 
   const validationSchema = yup.object({
-    title: yup.string('Enter the title').required('Title is required'),
-    description: yup
-      .string('Enter the description')
-      .required('Description is required'),
-    stockExchange: yup
-      .string('Enter the stock exchange')
-      .required('Stock exchange is required'),
-    shareSymbol: yup
-      .string('Enter the share symbol')
-      .required('Share symbol is required'),
-    sharePrice: yup
-      .string('Enter the share price')
-      .required('Share price is required'),
-    priceFrom: yup
-      .string('Enter the from price')
-      .required('From price is required'),
-    priceTo: yup.string('Enter the to price').required('To price is required'),
+    code: yup.string('Enter the code').required('Title is required'),
+    message: yup.string('Enter the message').required('This is required'),
     currency: yup.string('Enter the currency'),
     price: yup.string('Enter the price'),
   });
@@ -48,17 +36,15 @@ function ShardPriceForm({ formRef, action, error, onNotify }) {
     if (action && action.recordpk) {
       setRecordPk(action.recordpk);
     }
+    if (action && action.partypk) {
+      setPartyPk(action.partypk);
+    }
   }, [action]);
 
   const formik = useFormik({
     initialValues: {
-      title: action.title || '',
-      description: action.description || '',
-      stockExchange: action.stockExchange || '',
-      shareSymbol: action.shareSymbol || '',
-      sharePrice: action.sharePrice || '',
-      priceFrom: action.priceFrom || '',
-      priceTo: action.priceTo || '',
+      code: action.pingcode || '',
+      message: action.pingmessage || '',
       currency: action.pricecurrency || '',
       price: action.unitprice || '',
       enabled: !!action.recordenabled || true,
@@ -66,13 +52,29 @@ function ShardPriceForm({ formRef, action, error, onNotify }) {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
+      if (loading) return;
+
       if (recordPk) {
         values.recordPk = recordPk;
       }
 
-      dispatch(
-        showMessage({ message: 'Saved successfully.', variant: 'success' })
-      );
+      if (partyPk) {
+        values.partyPk = partyPk;
+      }
+      setLoading(true);
+      ActionService.savePingMessageAction(values)
+        .then((res) => {
+          dispatch(
+            showMessage({ message: 'Saved successfully.', variant: 'success' })
+          );
+          setRecordPk(res.action.recordpk);
+          setLoading(false);
+          Router.push('/actions');
+        })
+        .catch(() => {
+          setLoading(false);
+          dispatch(showMessage({ message: 'Failed save.', variant: 'error' }));
+        });
     },
   });
 
@@ -81,12 +83,12 @@ function ShardPriceForm({ formRef, action, error, onNotify }) {
       component="form"
       spacing={3}
       sx={{
-        mx: 'auto',
-        padding: 4,
+        float: 'left',
         width: {
           md: 600,
         },
-        float: 'left',
+        mx: 'auto',
+        padding: 4,
       }}
       noValidate
       autoComplete="off"
@@ -95,16 +97,16 @@ function ShardPriceForm({ formRef, action, error, onNotify }) {
     >
       <CustomTextField
         type="text"
-        name="title"
-        label="Title *"
+        name="code"
+        label="Code *"
         formik={formik}
         disabled={loading}
       />
 
       <TextField
-        id="description"
-        name="description"
-        label="Description *"
+        id="message"
+        name="message"
+        label="Message *"
         multiline
         rows={2}
         disabled={loading}
@@ -113,64 +115,6 @@ function ShardPriceForm({ formRef, action, error, onNotify }) {
         helperText={formik.touched.description && formik.errors.description}
         error={formik.touched.description && Boolean(formik.errors.description)}
       />
-
-      <Stack direction="row" spacing={2}>
-        <TextField
-          id="stockExchange"
-          name="stockExchange"
-          label="Stock Exchange *"
-          sx={{ width: '50%' }}
-          disabled={loading}
-          onChange={formik.handleChange}
-          defaultValue={formik.values.stockExchange}
-          helperText={
-            formik.touched.stockExchange && formik.errors.stockExchange
-          }
-          error={
-            formik.touched.stockExchange && Boolean(formik.errors.stockExchange)
-          }
-        />
-
-        <TextField
-          id="sharePrice"
-          name="sharePrice"
-          label="Share Price *"
-          sx={{ width: '50%' }}
-          disabled={loading}
-          onChange={formik.handleChange}
-          defaultValue={formik.values.sharePrice}
-          helperText={formik.touched.sharePrice && formik.errors.sharePrice}
-          error={formik.touched.sharePrice && Boolean(formik.errors.sharePrice)}
-        />
-      </Stack>
-
-      <Stack direction="row" spacing={2}>
-        <TextField
-          id="priceFrom"
-          name="priceFrom"
-          type="number"
-          label="From Price *"
-          sx={{ width: '50%' }}
-          disabled={loading}
-          onChange={formik.handleChange}
-          value={formik.values.priceFrom}
-          helperText={formik.touched.priceFrom && formik.errors.priceFrom}
-          error={formik.touched.priceFrom && Boolean(formik.errors.priceFrom)}
-        />
-
-        <TextField
-          id="priceTo"
-          name="priceTo"
-          type="number"
-          label="To Price *"
-          sx={{ width: '50%' }}
-          disabled={loading}
-          onChange={formik.handleChange}
-          value={formik.values.priceTo}
-          helperText={formik.touched.priceTo && formik.errors.priceTo}
-          error={formik.touched.priceTo && Boolean(formik.errors.priceTo)}
-        />
-      </Stack>
 
       <Stack direction="row" spacing={2}>
         <TextField
@@ -235,15 +179,10 @@ function ShardPriceForm({ formRef, action, error, onNotify }) {
       {error && <FormHelperText error>{error}</FormHelperText>}
 
       <Box>
-        <Button
-          ref={formRef}
-          type="submit"
-          loading={loading}
-          sx={{ display: 'none' }}
-        />
+        <Button ref={formRef} type="submit" sx={{ display: 'none' }} />
       </Box>
     </Stack>
   );
 }
 
-export default ShardPriceForm;
+export default EmailForm;

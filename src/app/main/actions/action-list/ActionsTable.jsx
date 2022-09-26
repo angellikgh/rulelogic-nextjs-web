@@ -10,7 +10,6 @@ import Typography from '@mui/material/Typography';
 
 import FuseLoading from '@fuse/core/FuseLoading';
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
-import FuseUtils from '@fuse/utils';
 import ActionsTableHead from './ActionsTableHead';
 import ActionsTableRow from './ActionsTableRow';
 import ActionService from 'services/actions';
@@ -25,7 +24,6 @@ function ActionsTable({ onChangeCount }) {
   const [count, setCount] = useState(0);
   const [skip, setSkip] = useState(0);
   const [limit, setLimit] = useState(defaultLimit);
-  const [selected, setSelected] = useState([]);
   const [actions, setActions] = useState([]);
   const [searchKey, setSearchKey] = useState(keyword);
   const [order, setOrder] = useState({
@@ -180,7 +178,6 @@ function ActionsTable({ onChangeCount }) {
 
           <TableBody>
             {actions.map((action) => {
-              const isSelected = selected.indexOf(action.recordpk) !== -1;
               return (
                 <ActionsTableRow
                   key={action.recordpk}

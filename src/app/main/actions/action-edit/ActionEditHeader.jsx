@@ -1,4 +1,4 @@
-import Router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material/styles';
@@ -6,10 +6,16 @@ import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
 import _ from 'lodash';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
+import ActionTypes from 'src/constants/ActionTypes';
 
-function ProductHeader({ type, action, formRef }) {
+function ProductHeader({ title, action, formRef }) {
   const theme = useTheme();
   const router = useRouter();
+
+  const strType = _.get(
+    _.find(ActionTypes, (v) => v.id === action.recordtype),
+    'title'
+  );
 
   let ownerName = action.company || `${action.firstname} ${action.lastname}`;
 
@@ -47,11 +53,7 @@ function ProductHeader({ type, action, formRef }) {
           >
             <Typography className="text-16 sm:text-20 truncate font-semibold">
               {action.recordpk ? 'Edit Action' : 'New Action'}
-              {type && (
-                <span className="ml-8 text-16">
-                  ({`${type.toUpperCase()}`})
-                </span>
-              )}
+              {title && <span className="ml-8 text-16">({title})</span>}
             </Typography>
             <Typography variant="caption" className="font-medium">
               {action.recordpk

@@ -204,7 +204,7 @@ function ActionType() {
                 >
                   {filteredData.map((actionType) => {
                     return (
-                      <motion.div variants={item} key={actionType.recordpk}>
+                      <motion.div variants={item} key={actionType.order}>
                         <ActionTypeCard actionType={actionType} />
                       </motion.div>
                     );

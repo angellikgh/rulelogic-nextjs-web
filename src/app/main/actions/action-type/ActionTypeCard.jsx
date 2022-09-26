@@ -9,7 +9,7 @@ import { lighten } from '@mui/material/styles';
 import { Typography } from '@mui/material';
 import clsx from 'clsx';
 
-function CourseCard({ actionType, className }) {
+function ActionTypeCard({ actionType, className }) {
   return (
     <Card className="flex flex-col h-200 shadow">
       <CardContent className="flex flex-auto p-18 justify-center gap-16">
@@ -54,9 +54,7 @@ function CourseCard({ actionType, className }) {
           }
           onClick={() => {
             actionType.enabled &&
-              Router.push(
-                `/actions/edit/${actionType.title.toLowerCase()}/new`
-              );
+              Router.push(`/actions/edit/${actionType.id}/new`);
           }}
           disabled={!actionType.enabled}
         >
@@ -67,4 +65,4 @@ function CourseCard({ actionType, className }) {
   );
 }
 
-export default CourseCard;
+export default ActionTypeCard;

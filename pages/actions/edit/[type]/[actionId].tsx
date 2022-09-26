@@ -1,1 +1,1 @@
-export default () => <div></div>
+export { default } from 'app/main/actions/action-edit';

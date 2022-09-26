@@ -1,19 +1,22 @@
 import { actionClient } from 'utils/api';
 import {
-  CommonSearchListRequest,
   ActionDmlCreateRequest,
   ActionDmlUpdateRequest,
-  CommonSearchRequest,
-  CommonPartyAssociateRequest,
-  CommonStatusChangeRequest,
-  Temporal,
-  Weather,
-  Location,
+  Email,
+  Sms,
+  Voice,
+  Ping,
   Action,
   ActionType,
   PartyAssociationType,
   AssociationMode,
 } from 'utils/action_pb';
+import {
+  CommonSearchRequest,
+  CommonPartyAssociateRequest,
+  CommonStatusChangeRequest,
+  CommonSearchListRequest,
+} from 'utils/common_pb';
 import AuthService from './auth';
 
 const ActionService = {
@@ -49,33 +52,71 @@ const ActionService = {
     return result.toObject();
   },
 
-  async saveTemporalAction(body) {
-    const temporal = new Temporal();
-    temporal.setYear(body.year);
-    temporal.setMonth(body.year);
-    temporal.setDayofmonth(body.dayOfMonth);
-    temporal.setDayofweek(body.dayOfWeek);
-    temporal.setHour(body.hour);
-    temporal.setMinute(body.minute);
+  async saveEmailAction(body) {
+    const email = new Email();
+    email.setEmailmessagefrom(body.from);
+    email.setEmailmessageto(body.to);
+    email.setEmailmessagebcc(body.bcc);
+    email.setEmailmessagecc(body.cc);
+    email.setEmailmessagesubject(body.title);
+    email.setEmailmessagebody(body.description);
 
     const action = new Action();
-    action.setTemporal(temporal);
-    action.setRecordtype(ActionType.TEMPORAL);
+    action.setEmail(email);
+    action.setRecordtype(ActionType.EMAIL);
 
     return await this.saveAction(action, body);
   },
 
-  async saveWeatherAction(body) {
+  async saveSmsAction(body) {
     try {
-      const weather = new Weather();
-      weather.setWeathertext(body.weather);
-      weather.setTemperatureunit(body.unit);
-      weather.setTemperaturefrom(body.fromTemperature);
-      weather.setTemperatureto(body.toTemperature);
+      const sms = new Sms();
+      sms.setSmsmessagefrom(body.from);
+      sms.setSmsmessageto(body.to);
+      sms.setSmsmessagetitle(body.title);
+      sms.setSmsmessage(body.description);
 
       const action = new Action();
-      action.setWeather(weather);
-      action.setRecordtype(ActionType.WEATHER);
+      action.setSms(sms);
+      action.setRecordtype(ActionType.SMS);
+
+      return await this.saveAction(action, body);
+    } catch (e) {
+      console.error(e);
+      throw new Error(e);
+    }
+  },
+
+  async saveVoiceMessageAction(body) {
+    try {
+      const voice = new Voice();
+      voice.setVoicemessagefrom(body.from);
+      voice.setVoicemessageto(body.to);
+      voice.setVoicemessage(body.title);
+      voice.setVoicemessagetitle(body.description);
+
+      const action = new Action();
+      action.setVoice(voice);
+      action.setRecordtype(ActionType.VOICE);
+
+      return await this.saveAction(action, body);
+    } catch (e) {
+      console.error(e);
+      throw new Error(e);
+    }
+  },
+
+  async savePingMessageAction(body) {
+    try {
+      const ping = new Ping();
+      ping.setSmsmessagefrom(body.from);
+      ping.setSmsmessageto(body.to);
+      ping.setPingcode(body.code);
+      ping.setPingmessage(body.message);
+
+      const action = new Action();
+      action.setPing(ping);
+      action.setRecordtype(ActionType.PING);
 
       return await this.saveAction(action, body);
     } catch (e) {
@@ -105,13 +146,10 @@ const ActionService = {
 
       if (data.partyPk) {
         action.setPartypk(data.partyPk);
+      } else {
+        const me = AuthService.getUserInfo();
+        action.setPartypk(me.recordpk);
       }
-
-      const location = new Location();
-      location.setLocationcity(data.city);
-      location.setLocationcountry(data.country);
-
-      action.setLocation(location);
 
       let result = null;
       if (data.recordPk) {
@@ -123,7 +161,7 @@ const ActionService = {
       } else {
         const createActionRequest = new ActionDmlCreateRequest();
         createActionRequest.setAuthdetail(authDetail);
-        createActionRequest.setRequestmessage('Create Weather Action');
+        createActionRequest.setRequestmessage(data.message || 'Create Action');
         createActionRequest.setAction(action);
 
         result = await actionClient.createRecord(createActionRequest);
@@ -172,7 +210,7 @@ const ActionService = {
     request.setAuthdetail(authDetail);
     request.setStatus(flag);
 
-    const result = await actionClient.pushChangeActionStatusRequest(request);
+    const result = await actionClient.changeActionStatus(request);
 
     return result.toObject();
   },

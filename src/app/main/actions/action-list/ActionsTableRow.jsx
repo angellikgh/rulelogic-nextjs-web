@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { Avatar, Box, TableCell, TableRow, Typography } from '@mui/material';
-import { findKey } from 'lodash';
+import { find } from 'lodash';
 import clsx from 'clsx';
 import LoadingButton from '@mui/lab/LoadingButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -12,7 +12,7 @@ import PlayCircleFilledWhiteOutlinedIcon from '@mui/icons-material/PlayCircleFil
 import StopCircleOutlinedIcon from '@mui/icons-material/StopCircleOutlined';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
-import { ActionType } from 'utils/action_pb';
+import ActionTypes from 'src/constants/ActionTypes';
 import Yellow from '@mui/material/colors/yellow';
 import Red from '@mui/material/colors/red';
 
@@ -54,9 +54,7 @@ const ActionsTableRow = ({
     icon,
   } = action;
   const isSelected = false;
-  const strRecordType = findKey(ActionType, function (v) {
-    return v === recordtype;
-  });
+  const actionType = find(ActionTypes, (v) => v.id === parseInt(recordtype));
   const ownerName =
     ownerparty.company || `${ownerparty.firstname} ${ownerparty.lastname}`;
   const isFavorite = info.hasviewerfavouritedrecord;
@@ -78,8 +76,7 @@ const ActionsTableRow = ({
       key={action.recordpk}
       selected={isSelected}
       onClick={(ev) =>
-        action.isrecordowner &&
-        onClick(action.recordpk, strRecordType.toLowerCase())
+        action.isrecordowner && onClick(action.recordpk, action.recordtype)
       }
     >
       <TableCell className="p-1 md:p-12" component="th" scope="row">
@@ -148,7 +145,7 @@ const ActionsTableRow = ({
         scope="row"
         sx={{ textTransform: 'capitalize' }}
       >
-        {strRecordType.toLowerCase()}
+        {actionType.title}
       </TableCell>
 
       <TableCell
@@ -189,7 +186,7 @@ const ActionsTableRow = ({
           )}
 
           {!!action.isrecordowner && (
-            <ActionButton variant="outlined" color="primary">
+            <ActionButton variant="outlined" color="primary" disabled={true}>
               <ContentCopyIcon fontSize="small" className="mr-4 text-15" />
               Duplicate
             </ActionButton>
