@@ -1,4 +1,4 @@
-import Router, { useRouter } from 'next/router';
+import Router from 'next/router';
 import { useCallback } from 'react';
 import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material/styles';
@@ -7,9 +7,8 @@ import { motion } from 'framer-motion';
 import _ from 'lodash';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 
-function ProductHeader({ type, rule, formRef }) {
+function RuleEditHeader({ type, rule, formRef }) {
   const theme = useTheme();
-  const router = useRouter();
 
   let ownerName = rule.company || `${rule.firstname} ${rule.lastname}`;
 
@@ -27,7 +26,7 @@ function ProductHeader({ type, rule, formRef }) {
           <Typography
             className="flex items-center sm:mb-12"
             role="button"
-            onClick={() => router.back(-1)}
+            onClick={() => Router.back(-1)}
             color="inherit"
           >
             <FuseSvgIcon size={20}>
@@ -80,4 +79,4 @@ function ProductHeader({ type, rule, formRef }) {
   );
 }
 
-export default ProductHeader;
+export default RuleEditHeader;

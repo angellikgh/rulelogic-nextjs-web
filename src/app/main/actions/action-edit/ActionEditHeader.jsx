@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 import { useCallback } from 'react';
 import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material/styles';
@@ -6,16 +6,9 @@ import Typography from '@mui/material/Typography';
 import { motion } from 'framer-motion';
 import _ from 'lodash';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
-import ActionTypes from 'src/constants/ActionTypes';
 
-function ProductHeader({ title, action, formRef }) {
+function ActionEditHeader({ title, action, formRef }) {
   const theme = useTheme();
-  const router = useRouter();
-
-  const strType = _.get(
-    _.find(ActionTypes, (v) => v.id === action.recordtype),
-    'title'
-  );
 
   let ownerName = action.company || `${action.firstname} ${action.lastname}`;
 
@@ -33,7 +26,7 @@ function ProductHeader({ title, action, formRef }) {
           <Typography
             className="flex items-center sm:mb-12"
             role="button"
-            onClick={() => router.back(-1)}
+            onClick={() => Router.back(-1)}
             color="inherit"
           >
             <FuseSvgIcon size={20}>
@@ -82,4 +75,4 @@ function ProductHeader({ title, action, formRef }) {
   );
 }
 
-export default ProductHeader;
+export default ActionEditHeader;
