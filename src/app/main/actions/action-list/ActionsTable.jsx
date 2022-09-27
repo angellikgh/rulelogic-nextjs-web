@@ -86,23 +86,24 @@ function ActionsTable({ onChangeCount }) {
   }, [count]);
 
   const handleFavorite = useCallback(
-    (id, flag) => () => {
-      ActionService.associateParty(id, 'favorite', flag).then(
-        ({ responsestatus }) => {
-          const changed = actions.map((action) => {
-            if (action.recordpk !== id) return action;
+    (id, flag) =>
+      _.debounce(() => {
+        ActionService.associateParty(id, 'favorite', flag).then(
+          ({ responsestatus }) => {
+            const changed = actions.map((action) => {
+              if (action.recordpk !== id) return action;
 
-            action.info.hasviewerfavouritedrecord = responsestatus.status
-              ? true
-              : false;
+              action.info.hasviewerfavouritedrecord = responsestatus.status
+                ? true
+                : false;
 
-            return action;
-          });
+              return action;
+            });
 
-          setActions(changed);
-        }
-      );
-    },
+            setActions(changed);
+          }
+        );
+      }, 100),
     [actions]
   );
 

@@ -88,23 +88,24 @@ function RulesTable({ onChangeCount }) {
   }, [count]);
 
   const handleFavorite = useCallback(
-    (id, flag) => () => {
-      RuleService.associateParty(id, 'favorite', flag).then(
-        ({ responsestatus }) => {
-          const changed = rules.map((rule) => {
-            if (rule.recordpk !== id) return rule;
+    (id, flag) =>
+      _.debounce(() => {
+        RuleService.associateParty(id, 'favorite', flag).then(
+          ({ responsestatus }) => {
+            const changed = rules.map((rule) => {
+              if (rule.recordpk !== id) return rule;
 
-            rule.info.hasviewerfavouritedrecord = responsestatus.status
-              ? true
-              : false;
+              rule.info.hasviewerfavouritedrecord = responsestatus.status
+                ? true
+                : false;
 
-            return rule;
-          });
+              return rule;
+            });
 
-          setRules(changed);
-        }
-      );
-    },
+            setRules(changed);
+          }
+        );
+      }, 100),
     [rules]
   );
 
