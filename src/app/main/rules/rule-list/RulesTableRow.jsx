@@ -15,6 +15,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { RuleType } from 'utils/rule_pb';
 import Yellow from '@mui/material/colors/yellow';
 import Red from '@mui/material/colors/red';
+import { formatNumber } from 'utils/Utils';
 
 const ActionButton = ({ children, ...props }) => (
   <LoadingButton className="py-4 pl-4 pr-8 min-h-24 h-24" {...props}>
@@ -152,7 +153,7 @@ const RulesTableRow = ({ rule, onClick, onStart, onSubscribe, onFavorite }) => {
         align="right"
       >
         {!!unitprice ? (
-          `${unitprice} ${pricecurrency}`
+          `${formatNumber(unitprice)} ${pricecurrency}`
         ) : (
           <div className="inline text-12 font-semibold py-4 px-12 rounded-full truncate bg-green text-white">
             Free
