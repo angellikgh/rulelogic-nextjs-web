@@ -29,8 +29,6 @@ function SmsForm({ formRef, action }) {
     description: yup
       .string('Enter the content')
       .required('Content is required'),
-    from: yup.string('Enter the from').required('Please select the from'),
-    to: yup.string('Enter the receiver').required('Receiver is required'),
     currency: yup.string('Enter the currency'),
     price: yup.string('Enter the price'),
   });
@@ -49,8 +47,6 @@ function SmsForm({ formRef, action }) {
     initialValues: {
       title: action.smsmessagetitle || '',
       description: action.smsmessage || '',
-      from: action.smsmessagefrom || '',
-      to: action.smsmessageto || '',
       currency: action.pricecurrency || '',
       price: action.unitprice || '',
       enabled: !!action.recordenabled || true,
@@ -102,22 +98,6 @@ function SmsForm({ formRef, action }) {
     >
       <CustomTextField
         type="text"
-        name="from"
-        label="From *"
-        formik={formik}
-        disabled={loading}
-      />
-
-      <CustomTextField
-        type="text"
-        name="to"
-        label="To *"
-        formik={formik}
-        disabled={loading}
-      />
-
-      <CustomTextField
-        type="text"
         name="title"
         label="Subject *"
         formik={formik}
@@ -127,7 +107,7 @@ function SmsForm({ formRef, action }) {
       <CustomTextField
         type="text"
         name="description"
-        label="Content *"
+        label="Body *"
         multiline
         rows={2}
         formik={formik}

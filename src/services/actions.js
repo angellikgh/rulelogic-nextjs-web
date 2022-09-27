@@ -67,8 +67,6 @@ const ActionService = {
   async saveSmsAction(body) {
     try {
       const sms = new Sms();
-      sms.setSmsmessagefrom(body.from);
-      sms.setSmsmessageto(body.to);
       sms.setSmsmessagetitle(body.title);
       sms.setSmsmessage(body.description);
 
@@ -86,8 +84,6 @@ const ActionService = {
   async saveVoiceMessageAction(body) {
     try {
       const voice = new Voice();
-      voice.setVoicemessagefrom(body.from);
-      voice.setVoicemessageto(body.to);
       voice.setVoicemessage(body.title);
       voice.setVoicemessagetitle(body.description);
 
@@ -105,8 +101,6 @@ const ActionService = {
   async savePingMessageAction(body) {
     try {
       const ping = new Ping();
-      ping.setSmsmessagefrom(body.from);
-      ping.setSmsmessageto(body.to);
       ping.setPingcode(body.code);
       ping.setPingmessage(body.message);
 

@@ -98,7 +98,7 @@ function EmailForm({ formRef, action, error }) {
       <CustomTextField
         type="text"
         name="code"
-        label="Code *"
+        label="Subject *"
         formik={formik}
         disabled={loading}
       />

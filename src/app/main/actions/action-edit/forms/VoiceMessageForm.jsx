@@ -112,7 +112,7 @@ function EmailForm({ formRef, action, error }) {
       <TextField
         id="description"
         name="description"
-        label="Content *"
+        label="Voice Message *"
         multiline
         rows={2}
         disabled={loading}
@@ -120,22 +120,6 @@ function EmailForm({ formRef, action, error }) {
         defaultValue={formik.values.description}
         helperText={formik.touched.description && formik.errors.description}
         error={formik.touched.description && Boolean(formik.errors.description)}
-      />
-
-      <CustomTextField
-        type="text"
-        name="from"
-        label="From *"
-        formik={formik}
-        disabled={loading}
-      />
-
-      <CustomTextField
-        type="text"
-        name="to"
-        label="To *"
-        formik={formik}
-        disabled={loading}
       />
 
       <Stack direction="row" spacing={2}>

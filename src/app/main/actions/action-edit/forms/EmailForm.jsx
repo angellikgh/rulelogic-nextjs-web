@@ -106,7 +106,7 @@ function EmailForm({ formRef, action, error }) {
       <TextField
         id="description"
         name="description"
-        label="Content *"
+        label="Body *"
         multiline
         rows={2}
         disabled={loading}
