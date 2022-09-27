@@ -129,7 +129,6 @@ function SignUpPage() {
                   error={!!errors.companyName}
                   helperText={errors?.companyName?.message}
                   variant="outlined"
-                  required
                   fullWidth
                 />
               )}
