@@ -6,8 +6,6 @@ import ListItemText from '@mui/material/ListItemText';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { useMemo } from 'react';
-import { useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import { Box } from '@mui/system';
 import FuseNavBadge from '../../FuseNavBadge';
 import FuseSvgIcon from '../../../FuseSvgIcon';
@@ -65,9 +63,6 @@ const Root = styled(Box)(({ theme }) => ({
 }));
 
 function FuseNavVerticalTab(props) {
-  const dispatch = useDispatch();
-  const location = useLocation();
-
   const { item, onItemClick, firstLevel, dense, selectedId } = props;
 
   return useMemo(
@@ -99,7 +94,9 @@ function FuseNavVerticalTab(props) {
                     {item.icon}
                   </FuseSvgIcon>
                 ) : (
-                  item.title && <div className="font-bold text-16">{item.title[0]}</div>
+                  item.title && (
+                    <div className="font-bold text-16">{item.title[0]}</div>
+                  )
                 )}
                 {item.badge && (
                   <FuseNavBadge
@@ -121,7 +118,9 @@ function FuseNavVerticalTab(props) {
                     {item.icon}
                   </FuseSvgIcon>
                 ) : (
-                  item.title && <div className="font-bold text-20">{item.title[0]}</div>
+                  item.title && (
+                    <div className="font-bold text-20">{item.title[0]}</div>
+                  )
                 )}
                 {item.badge && (
                   <FuseNavBadge

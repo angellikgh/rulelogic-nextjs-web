@@ -1,4 +1,4 @@
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material/styles';
@@ -9,6 +9,8 @@ import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 
 function RuleEditHeader({ type, rule, formRef }) {
   const theme = useTheme();
+  const router = useRouter();
+  const { ruleId } = router.query;
 
   let ownerName = rule.company || `${rule.firstname} ${rule.lastname}`;
 
@@ -26,7 +28,9 @@ function RuleEditHeader({ type, rule, formRef }) {
           <Typography
             className="flex items-center sm:mb-12"
             role="button"
-            onClick={() => Router.back(-1)}
+            onClick={() =>
+              ruleId === 'new' ? router.back() : router.push('/rules')
+            }
             color="inherit"
           >
             <FuseSvgIcon size={20}>
