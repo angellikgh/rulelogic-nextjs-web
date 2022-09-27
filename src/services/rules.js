@@ -53,7 +53,7 @@ const RuleService = {
   async saveTemporalRule(body) {
     const temporal = new Temporal();
     temporal.setYear(body.year);
-    temporal.setMonth(body.year);
+    temporal.setMonth(body.month);
     temporal.setDayofmonth(body.dayOfMonth);
     temporal.setDayofweek(body.dayOfWeek);
     temporal.setHour(body.hour);
