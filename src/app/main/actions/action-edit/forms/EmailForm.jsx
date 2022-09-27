@@ -26,10 +26,6 @@ function EmailForm({ formRef, action, error }) {
   const [partyPk, setPartyPk] = useState(null);
 
   const validationSchema = yup.object({
-    from: yup.string('Enter the from').required('From is required'),
-    cc: yup.string('Enter the cc'),
-    bcc: yup.string('Enter the bcc'),
-    to: yup.string('Enter the to').required('Please select the to'),
     title: yup.string('Enter the subject').required('Subject is required'),
     description: yup
       .string('Enter the content')
@@ -47,10 +43,6 @@ function EmailForm({ formRef, action, error }) {
 
   const formik = useFormik({
     initialValues: {
-      from: action.emailmessagefrom || '',
-      cc: action.emailmessageto || '',
-      bcc: action.emailmessagebcc || '',
-      to: action.emailmessageto || '',
       title: action.emailmessagesubject || '',
       description: action.emailmessagebody || '',
       currency: action.pricecurrency || '',
@@ -103,50 +95,6 @@ function EmailForm({ formRef, action, error }) {
       onSubmit={formik.handleSubmit}
       method="post"
     >
-      <TextField
-        id="from"
-        name="from"
-        label="From *"
-        disabled={loading}
-        onChange={formik.handleChange}
-        defaultValue={formik.values.from}
-        helperText={formik.touched.from && formik.errors.from}
-        error={formik.touched.from && Boolean(formik.errors.from)}
-      />
-
-      <TextField
-        id="to"
-        name="to"
-        label="To *"
-        disabled={loading}
-        onChange={formik.handleChange}
-        defaultValue={formik.values.to}
-        helperText={formik.touched.to && formik.errors.to}
-        error={formik.touched.to && Boolean(formik.errors.to)}
-      />
-
-      <TextField
-        id="cc"
-        name="cc"
-        label="CC"
-        disabled={loading}
-        onChange={formik.handleChange}
-        value={formik.values.cc}
-        helperText={formik.touched.cc && formik.errors.cc}
-        error={formik.touched.cc && Boolean(formik.errors.cc)}
-      />
-
-      <TextField
-        id="bcc"
-        name="bcc"
-        label="BCC"
-        disabled={loading}
-        onChange={formik.handleChange}
-        value={formik.values.bcc}
-        helperText={formik.touched.bcc && formik.errors.bcc}
-        error={formik.touched.bcc && Boolean(formik.errors.bcc)}
-      />
-
       <CustomTextField
         type="text"
         name="title"

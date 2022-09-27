@@ -54,10 +54,6 @@ const ActionService = {
 
   async saveEmailAction(body) {
     const email = new Email();
-    email.setEmailmessagefrom(body.from);
-    email.setEmailmessageto(body.to);
-    email.setEmailmessagebcc(body.bcc);
-    email.setEmailmessagecc(body.cc);
     email.setEmailmessagesubject(body.title);
     email.setEmailmessagebody(body.description);
 
