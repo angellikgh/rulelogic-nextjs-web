@@ -11,13 +11,11 @@ import ActionConfig from '../main/actions/ActionConfig';
 import dashboardsConfigs from '../main/dashboards/dashboardsConfigs';
 import appsConfigs from '../main/apps/appsConfigs';
 import pagesConfigs from '../main/pages/pagesConfigs';
-import authRoleExamplesConfigs from '../main/auth/authRoleExamplesConfigs';
 
 const routeConfigs = [
   ...appsConfigs,
   ...dashboardsConfigs,
   ...pagesConfigs,
-  ...authRoleExamplesConfigs,
   ...userInterfaceConfigs,
   SignOutConfig,
   SignInConfig,
