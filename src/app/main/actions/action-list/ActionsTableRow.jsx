@@ -156,7 +156,7 @@ const ActionsTableRow = ({
         align="right"
       >
         {!!unitprice ? (
-          `${formatNumber(price)} ${pricecurrency}`
+          `${formatNumber(unitprice)} ${pricecurrency}`
         ) : (
           <div className="inline text-12 font-semibold py-4 px-12 rounded-full truncate bg-green text-white">
             Free
