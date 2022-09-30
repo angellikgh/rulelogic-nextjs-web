@@ -74,9 +74,7 @@ const EventsTableRow = ({
       tabIndex={-1}
       key={event.recordpk}
       selected={isSelected}
-      onClick={(ev) =>
-        event.isrecordowner && onClick(event.recordpk, event.recordtype)
-      }
+      onClick={(ev) => event.isrecordowner && onClick(event.recordpk)}
     >
       <TableCell className="p-1 md:p-12" component="th" scope="row">
         {icon ? (

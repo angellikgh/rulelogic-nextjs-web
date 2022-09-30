@@ -76,8 +76,8 @@ function EventsTable({ onChangeCount }) {
     });
   }
 
-  function handleClick(recordpk, type) {
-    Router.push(`/events/edit/${type}/${recordpk}`);
+  function handleClick(recordpk) {
+    Router.push(`/events/edit/${recordpk}`);
   }
 
   const handleShowMore = useCallback(() => {
