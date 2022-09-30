@@ -45,8 +45,8 @@ function EmailForm({ formRef, event, error }) {
     initialValues: {
       title: event.title || '',
       description: event.description || '',
-      currency: event.pricecurrency || '',
-      price: event.unitprice || '',
+      currency: event.pricecurrency || constants.currencyList[0],
+      price: event.unitprice || 0.1,
       enabled: !!event.recordenabled || true,
       private: !!event.visibility || false,
     },
@@ -98,7 +98,7 @@ function EmailForm({ formRef, event, error }) {
       <CustomTextField
         type="text"
         name="title"
-        label="Subject *"
+        label="Title *"
         formik={formik}
         disabled={loading}
       />
@@ -106,7 +106,7 @@ function EmailForm({ formRef, event, error }) {
       <TextField
         id="description"
         name="description"
-        label="Body *"
+        label="Description *"
         multiline
         rows={2}
         disabled={loading}

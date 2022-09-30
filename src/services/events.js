@@ -6,7 +6,6 @@ import {
   CommonSearchRequest,
   CommonPartyAssociateRequest,
   CommonStatusChangeRequest,
-  Location,
   Event,
   PartyAssociationType,
   AssociationMode,
@@ -47,14 +46,11 @@ const EventService = {
     return result.toObject();
   },
 
-  async saveEvent(event, data) {
+  async saveEvent(data) {
     try {
       const authDetail = AuthService.getAuthDetail();
 
-      if (!event) {
-        event = new Event();
-      }
-
+      const event = new Event();
       event.setTitle(data.title);
       event.setDescription(data.description);
       event.setRecordenabled(data.enabled);
@@ -68,13 +64,10 @@ const EventService = {
 
       if (data.partyPk) {
         event.setPartypk(data.partyPk);
+      } else {
+        const me = AuthService.getUserInfo();
+        event.setPartypk(me.recordpk);
       }
-
-      const location = new Location();
-      location.setLocationcity(data.city);
-      location.setLocationcountry(data.country);
-
-      event.setLocation(location);
 
       let result = null;
       if (data.recordPk) {
