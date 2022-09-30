@@ -18,6 +18,7 @@ import * as constants from 'src/constants';
 import CustomTextField from 'components/Form/CustomTextField';
 import EventService from 'services/events';
 import { showMessage } from 'app/store/fuse/messageSlice';
+import { formatNumber } from 'utils/Utils';
 
 function EmailForm({ formRef, event, error }) {
   const dispatch = useDispatch();
@@ -46,7 +47,7 @@ function EmailForm({ formRef, event, error }) {
       title: event.title || '',
       description: event.description || '',
       currency: event.pricecurrency || constants.currencyList[0],
-      price: event.unitprice || 0.1,
+      price: formatNumber(event.unitprice) || 0.1,
       enabled: !!event.recordenabled || true,
       private: !!event.visibility || false,
     },

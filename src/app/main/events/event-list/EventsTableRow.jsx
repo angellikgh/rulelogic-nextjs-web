@@ -48,7 +48,6 @@ const EventsTableRow = ({
     description,
     info,
     ownerparty,
-    recordtype,
     unitprice,
     pricecurrency,
     icon,
