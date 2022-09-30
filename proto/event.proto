@@ -1,0 +1,213 @@
+syntax = "proto3";
+
+package io.rulelogic.api;
+
+import "common/common.proto";
+
+import "party.proto";
+
+
+service EventService {
+
+  rpc getSingleRecord      (CommonSearchRequest)            returns (EventSearchSingleResponse);
+
+  /// From an event, reads all the rules, comes up with the event status:
+  ///   - if all rules' status is true then event status is true
+  ///   - if all rules' status is false then event status is false
+  ///   - if not all rules' status is the same the the event status is false
+  ///   - based on the above it decides whether the event status should change or not
+  // rpc deriveStatus     (CommonSearchRequest)            returns (DeriveStatusResponse) ;
+
+  // /// reads all rule for event, and derive what the status should be
+  // /// for example if all rule as false, then result should be false, if all true, then they should be true
+  // rpc deriveRecordStatus     (CommonSearchRequest)            returns (EventSearchSingleResponse);
+
+  rpc listRecords          (CommonSearchListRequest)        returns (EventListResponse) ;
+  rpc listRecordsForRule   (SearchListForRuleRequest)        returns (EventListResponse) ;
+
+
+  rpc updateRecord         (EventDmlUpdateRequest)          returns (EventDmlUpdateResponse) ;
+  rpc deleteRecord         (CommonDeleteRequest)            returns (EventDmlDeleteResponse) ;
+  rpc createRecord         (EventDmlCreateRequest)          returns (EventDmlCreateResponse) ;
+
+  rpc duplicateRecord      (CommonDuplicateRequest)            returns (EventDmlCreateResponse) ;
+
+  /// Actual call to db to change status - this should never be called directly
+  /// other than by event hub
+ 
+
+  rpc changeEventStatus     (EventStatusChangeRequest)      returns (EventDmlUpdateResponse) ;
+
+  /// change status request is sent to event hub, and event hub procesess the work
+  /// all request to change status in ui needs to be done with this
+
+  rpc pushChangeEventStatusRequest     (CommonStatusChangeRequest)      returns (EventDmlUpdateResponse) ;
+
+
+
+ 
+
+  rpc associateParty        (CommonPartyAssociateRequest)   returns (EventDmlUpdateResponse) ;
+
+  /// can associate event to rule, event to action, etc.
+  rpc associateEntity       (CommonEntityAssociateRequest)  returns (EventDmlUpdateResponse) ;
+
+  rpc rateEvent             (CommonRateRequest)             returns (EventDmlUpdateResponse) ;
+
+
+}
+
+// def get_all_event_records(eventId):
+// def unlink_event_from_event(id,eventkey):
+// def status_change(eventId,status):
+// def event_triggers_event(eventId,eventId ): - get event, get event, event triggered by event
+// def record_association(eventId,relation,action): - v_relation ('subscribe','favourite')),  v_action not in ('on','off')):
+// def record_rating(event,rating):
+// def attach_events(id): - attaches events to an event in a cart - event is a param, event is in an array
+// def detach_events(id): - detaches events to an event in a cart - event is a param, event is in an array
+
+// shadowedBy   = RelationshipFrom ('event.EventModel.Event'    , 'IS_SHADOWED_BY'  , model=EventToEventRel  )
+// ownedBy      = RelationshipFrom ('party.PartyModel.Party'    , 'IS_OWNER_OF'     , model=EventToPartyRel  )
+// ratedBy      = RelationshipFrom ('party.PartyModel.Party'    , 'IS_RATER_OF'     , model=EventToPartyRel  )
+// subscribedBy = RelationshipTo   ('party.PartyModel.Party'    , 'IS_SUBSCRIBED_BY', model=EventToPartyRel  )
+// favouritedBy = RelationshipFrom ('party.PartyModel.Party'    , 'IS_IN_FAVOUR_OF' , model=EventToPartyRel  )
+
+// triggerdBy   = RelationshipFrom ('rule.RuleModel.Rule'       , 'TRIGGERED_BY'    , model=EventToRuleRel   )
+// triggers     = RelationshipTo   ('action.ActionModel.Action' , 'TRIGGERS'        , model=EventToActionRel )
+
+/// Shows Supporting Info for Event Record display features and logic
+message EventInfo {
+  string recordPk = 1;
+  string ownerPartyPk = 2;
+  string ownerTitle = 3;                  // title used - starting with By - note: for Person is first+last, for company is company title
+  string recordTitleFirstLetter = 4;      // used for displaying round icon
+  string recordTitleColor = 5;            // used for color of display icon
+  bool   isStatusOn = 9;                  // is the event status on - populated at runtime     
+  int32  queryTotalRecord = 10;           // the total records count from query for pagination - populated at rumtime 
+  bool   isViewerPartyRecordOwner = 20;   // is the party which is viewing this record the owner or not - populate at runtime
+  bool   hasViewerSubscribed = 21;        // is the party which is viewing this record the subscribed or not - populate at runtime
+  bool   hasViewerFavouritedRecord=22;    // is the party which is viewing this record the owner or not - populate at runtime
+  
+}
+
+/// Shows analytics and aggregation for event
+message EventAnalytics {
+  string recordPk = 1;
+  int32  rulesCount = 10;
+  int32  actionsCount = 11;
+  int32  subscribersCount = 12;
+  int32  favouritesCount = 13;
+  int32  reviewsCount = 14;
+  double reviewRating = 15; 
+}
+
+message Event {
+
+
+
+  string recordPk = 1;
+  string code = 2;
+  string title = 3;
+  string description = 4;
+  string priceCurrency = 5;
+  float  unitPrice = 6;
+  string partyPk = 8;
+
+  bool recordEnabled = 10;
+  bool recordStatus = 16;
+
+  Party ownerParty = 19;
+  bool  isRecordOwner = 20;
+
+  /// there may be populated at runtime
+  EventInfo  info = 21;
+  EventAnalytics analytics = 22;
+
+
+  VisibilityType visibility = 31;
+
+
+  Omd omd = 35;
+
+
+}
+
+
+message DeriveStatusResponse {
+  bool currentStatus = 1;      /// the current status of the event record
+  bool derivedStatus = 2;      // what the status should be based on the status of the rules and the event
+  bool shouldStatusChange = 3; // based on comparing the above 2 status
+  ResponseStatus responseStatus = 4; // to show any failure happens in the deriving - error code, etc.
+}
+
+message EventSearchSingleResponse {
+  Event event = 1;
+  ResponseStatus responseStatus = 2;
+  RecordMetadata recordMetadata = 3;
+
+}
+
+
+
+message EventListResponse {
+  int32 skip = 1;
+  int32 limit = 2;
+  repeated Event events = 3;
+  ResponseStatus responseStatus = 4;
+  PaginationInfo paginationInfo = 5;
+
+}
+
+
+message SearchListForRuleRequest {
+
+  string ruleRecordPk = 1;
+  AuthDetail authDetail = 2;
+  int32 skip = 3;  // Skip number of records - default is 0
+  int32 limit = 4;  // number of records to return - default is 10
+}
+
+message EventStatusChangeRequest {
+  string id = 1;  // RecordPk of the entity to subscribe to - e.g. event, rule, action
+  bool status = 2; // true, meaning turn on, or false meaning turn off
+  string recordOwnerPartyPk = 3; 
+  AuthDetail authDetail = 10;  
+  // AuthenticateResponse authenticateResponse = 12;
+  bool isSuperUser = 13;
+  // the auth details of a person wanting to subsccribe to the entiry 
+}
+
+
+message EventDmlCreateRequest {
+  Event event = 1; 
+  string requestMessage  = 2;
+  AuthDetail authDetail = 10;
+}
+
+message EventDmlCreateResponse {
+  Event event = 1;
+  ResponseStatus responseStatus = 2;
+}
+
+message EventDmlUpdateResponse {
+  Event event = 1;
+  ResponseStatus responseStatus = 2;
+}
+
+message EventDmlUpdateRequest {
+
+  Event event = 1;
+  ResponseStatus responseStatus = 2;
+  AuthDetail authDetail = 10;
+}
+
+// Delete
+message EventDmlDeleteResponse {
+  string id = 1;
+  ResponseStatus responseStatus = 2;
+
+}
+
+
+
+

@@ -13,6 +13,11 @@ const {
   ActionServicePromiseClient,
 } = require('./action_grpc_web_pb');
 
+const {
+  EventServiceClient,
+  EventServicePromiseClient,
+} = require('./event_grpc_web_pb');
+
 const _url = process.env.NEXT_PUBLIC_BASE_API_URL || 'http://0.0.0.0:8080';
 
 const callbackClient = new PartyServiceClient(_url);
@@ -25,6 +30,9 @@ const ruleClientSync = new RuleServiceClient(_url);
 const actionClient = new ActionServicePromiseClient(_url);
 const actionClientSync = new ActionServiceClient(_url);
 
+const eventClient = new EventServicePromiseClient(_url);
+const eventClientSync = new EventServiceClient(_url);
+
 if (typeof window !== 'undefined' && window.__GRPCWEB_DEVTOOLS__) {
   const devInterceptors = window.__GRPCWEB_DEVTOOLS__ || (() => {});
   devInterceptors([
@@ -34,6 +42,8 @@ if (typeof window !== 'undefined' && window.__GRPCWEB_DEVTOOLS__) {
     ruleClient,
     actionClientSync,
     actionClient,
+    eventClientSync,
+    eventClient,
   ]);
 }
 
@@ -45,4 +55,6 @@ module.exports = {
   ruleClientSync,
   actionClient,
   actionClientSync,
+  eventClient,
+  eventClientSync,
 };
