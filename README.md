@@ -2,7 +2,7 @@
 
 ## Front end for Rule Logic
 
-![main](/public/assets/icons/feather.svg.svg)
+![main](/public/assets/icons/feather.svg)
 
 ## Project includes:
 
