@@ -2,7 +2,7 @@
 
 ## Front end for Rule Logic
 
-![main](/public/assets/logo.svg)
+![main](/public/logo.svg)
 
 ## Project includes:
 
